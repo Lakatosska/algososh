@@ -1,0 +1,19 @@
+.main {
+  width: 980px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.radiobutton {
+  display: flex;
+  width: 221px;
+  justify-content: space-between;
+}
+
+.button {
+  display: flex;
+  width: 422px;
+  justify-content: space-between;
+}

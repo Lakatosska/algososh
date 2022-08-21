@@ -1,0 +1,15 @@
+.main {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 377px 133px;
+  gap: 12px;
+  justify-content: center;
+}
+
+.circles {
+  width: 1040px;
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  margin: 120px auto 0;
+ 
+}
