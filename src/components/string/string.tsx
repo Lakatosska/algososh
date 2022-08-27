@@ -15,23 +15,20 @@ interface LetterProps {
 export const StringComponent: React.FC = () => {
 
   const [inputValue, setInputValue] = useState('')
-
   const [showValue, setShowValue] = useState<LetterProps[]>([])
 
   const onButtonClick = useCallback(() => {
 
-    let inputs = inputValue.split('').map(item=>
-      {
-        return {
-          symbol: item,
-          state: ElementStates.Default
-        }
+    const inputs = inputValue.split('').map(item=> {
+      return {
+        symbol: item,
+        state: ElementStates.Default
       }
-    )
+    })
 
     setShowValue(inputs)
-    let i = 0
 
+    let i = 0
     let x = setInterval(() => {
 
       let arr = [...inputs]
@@ -40,6 +37,7 @@ export const StringComponent: React.FC = () => {
         symbol: inputs[inputs.length - 1 - i].symbol,
         state: ElementStates.Changing
       }
+      
       arr[arr.length - 1 - i] = {
         symbol: inputs[i].symbol,
         state: ElementStates.Changing
@@ -64,7 +62,7 @@ export const StringComponent: React.FC = () => {
         <Input 
           maxLength={11}
           isLimitText
-          extraClass = "10"
+          extraClass = ''
           onChange = {(e) => setInputValue(e.currentTarget.value)}
         />
         <Button onClick={onButtonClick}
