@@ -8,5 +8,10 @@
 .circles {
   display: flex;
   justify-content: center;
-  margin: 120px auto 0;
+  margin: 48px auto 0;
+  flex-wrap: wrap;
+  max-width: 944px;
+  align-content: space-between;
+  min-height: 238px;
+  gap: 16px;
 }

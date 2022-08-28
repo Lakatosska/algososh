@@ -17,3 +17,12 @@
   width: 422px;
   justify-content: space-between;
 }
+
+.columns {
+  margin: 48px auto 0;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: baseline;
+  height: 348px;  
+}

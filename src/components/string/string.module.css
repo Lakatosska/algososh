@@ -7,7 +7,19 @@
 }
 
 .circles {
-  display: flex;
   justify-content: center;
   margin: 120px auto 0;
+  display: flex;
+  gap: 16px;
+  
 }
+
+/*
+.circles {
+  justify-content: center;
+  margin: 120px auto 0;
+  display: grid;
+  width: 1040px;
+  grid-template-columns: repeat(11, 1fr);
+}
+*/

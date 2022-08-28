@@ -62,7 +62,6 @@ export const StringComponent: React.FC = () => {
         <Input 
           maxLength={11}
           isLimitText
-          extraClass = ''
           onChange = {(e) => setInputValue(e.currentTarget.value)}
         />
         <Button onClick={onButtonClick}
@@ -79,6 +78,7 @@ export const StringComponent: React.FC = () => {
               letter={item.symbol} 
               state={item.state} 
               key={index}
+              extraClass = ""
             />
           )
         })
