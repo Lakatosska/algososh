@@ -4,3 +4,9 @@
   gap: 12px;
   justify-content: center;
 }
+
+.circles {
+  display: flex;
+  justify-content: center;
+  margin: 120px auto 0;
+}

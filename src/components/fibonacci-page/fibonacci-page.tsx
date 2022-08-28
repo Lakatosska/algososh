@@ -14,45 +14,33 @@ interface NumberProps {
 export const FibonacciPage: React.FC = () => {
 
   const [inputValue, setInputValue] = useState('')
-  const [showValue, setShowValue] = useState<NumberProps[]>([])
+  const [showValue, setShowValue] = useState<any>([])
 
   const onButtonClick = useCallback(() => {
 
-    let num = Number(inputValue)
+    const inputNumber = Number(inputValue)
 
     const fibonacci = (num: number) => {
-      let res: number[] = [0, 1]
+      let res: number[] = [1, 1]
       console.log(res)
     
       for(let i = 2; i <= num; i++) {
     
         const prevNum1 = res[i - 1]
-        console.log(prevNum1)
-    
         const prevNum2 = res[i - 2]
-        console.log(prevNum2)
     
         res.push(prevNum1 + prevNum2)
       }
     
-      return res[num] 
+      return res
     }
 
-    /*
-    const inputs = num.map(item => {
-      return {
-        symbol: item,
-        state: ElementStates.Default}
-    })
+    const res1 = fibonacci(inputNumber)
+    console.log(res1)
 
-    setShowValue(inputs)
-*/
-
+    setShowValue(res1)
 
   }, [inputValue])
-
-
-
 
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
@@ -63,30 +51,25 @@ export const FibonacciPage: React.FC = () => {
           max={19}
           type=''
           onChange={(e) => setInputValue(e.currentTarget.value)}
-         
         
         />
         <Button 
           onClick={onButtonClick}
           text='Рассчитать'/>
       </section>
-      <section>
+      <section className={styles.circles}>
         {
-          showValue.map((item, index) => {
+          showValue.map((item: any, index: any) => {
             return (
               <Circle
-                letter={item.symbol}
-                state={item.state}
+                letter={item}
+                index={index}
                 key={index}
               />
-
             )
           })
         }
-
-
       </section>
-     
     </SolutionLayout>
   );
 };
