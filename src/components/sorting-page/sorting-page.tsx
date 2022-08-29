@@ -11,8 +11,8 @@ export const SortingPage: React.FC = () => {
 
   const [randomArray, setRandomArray] = useState<any>([])
 
+  //генерация случайного массива
   const onArrayGenerate = () => {
-
     let n 
 
     const getRandomArbitrary = (min: any, max: any) => {
@@ -25,14 +25,100 @@ export const SortingPage: React.FC = () => {
     const randomArr = Array(n).fill(null).map(() => Math.floor(Math.random() * 100))
     console.log(randomArr)
 
-    setRandomArray(randomArr)
-
-
-    
+    setRandomArray(randomArr)    
   }
 
-  
-  
+  //сортировка пузырьком по возрастанию
+  const bubbleSortAsc = (array: any) => {
+    for(let n=0; n < array.length; n++) {
+      for(let i=0; i< array.length - 1 - n; i++) {
+        if (array[i] > array[i+1]) {
+          const temp = array[i]
+          array[i] = array[i+1]
+          array[i+1] = temp
+        }
+      }
+    }
+    console.log(array)
+    return array
+  }
+
+  const onClickBubbleSortAsc = () => {
+    //console.log('click')
+    bubbleSortAsc(randomArray)
+  }
+
+
+  //сортировка пузырьком по убыванию
+  const bubbleSortDesc = (array: any) => {
+    for(let n=0; n < array.length; n++) {
+      for(let i=0; i< array.length - 1 - n; i++) {
+        if (array[i] < array[i+1]) {
+          const temp = array[i]
+          array[i] = array[i+1]
+          array[i+1] = temp
+        }
+      }
+    }
+    console.log(array)
+    return array
+  }
+
+  const onClickBubbleSortDesc = () => {
+    bubbleSortDesc(randomArray)
+  }
+
+  //сортировка выбором по возрастанию
+  const selectionSortAsc = (array: any) => {
+    for(let n = 0; n < array.length; n++) {
+      let max = 0
+      let index = 0
+
+      for(let i = 0; i < array.length - n; i++) {
+        if (array[i] > max) {
+          max = array[i]
+          index = i
+        }
+      }
+
+      const temp = array[array.length - 1 - n]
+      array[array.length - 1 - n] = max
+      array[index] = temp
+    }
+    console.log(array)
+    return array
+  }
+
+  const onClickSelectionSortAsc = () => {
+    selectionSortAsc(randomArray)
+  }
+
+
+  //сортировка выбором по убыванию
+  const selectionSortDesc = (array: any) => {
+    for(let n = 0; n < array.length; n++) {
+      let min = 100
+      let index = 0
+
+      for(let i = 0; i < array.length - n; i++) {
+        if (array[i] < min) {
+          min = array[i]
+          index = i
+        }
+      }
+
+      const temp = array[array.length - 1 - n]
+      array[array.length - 1 - n] = min
+      array[index] = temp
+    }
+    console.log(array)
+    return array
+  }
+
+  const onClickSelectionSortDesc = () => {
+    selectionSortDesc(randomArray)
+  }
+
 
   return (
     <SolutionLayout title="Сортировка массива">
@@ -47,10 +133,14 @@ export const SortingPage: React.FC = () => {
         </div>
         <div className={styles.button}>
           <Button 
+            //onClick={onClickBubbleSortAsc}
+            onClick={onClickSelectionSortAsc}
             text='По возрастанию'
             sorting={Direction.Ascending}
           />
           <Button 
+            //onClick={onClickBubbleSortDesc}
+            onClick={onClickSelectionSortDesc}
             text='По убыванию'
             sorting={Direction.Descending}
           />
@@ -71,25 +161,7 @@ export const SortingPage: React.FC = () => {
           )
         })
       }
-
-       
-
-
       </section>
     </SolutionLayout>
   );
 };
-
-/*
-{
-  showValue.map((item: any, index: any) => {
-    return (
-      <Circle
-        letter={item}
-        index={index}
-        key={index}
-      />
-    )
-  })
-}
-*/

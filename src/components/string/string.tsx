@@ -78,12 +78,10 @@ export const StringComponent: React.FC = () => {
               letter={item.symbol} 
               state={item.state} 
               key={index}
-              extraClass = ""
             />
           )
         })
       }
-      
       </section>
     </SolutionLayout>
   )
