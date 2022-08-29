@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, ChangeEvent } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
@@ -9,7 +9,13 @@ import { Column } from "../ui/column/column";
 
 export const SortingPage: React.FC = () => {
 
-  const [randomArray, setRandomArray] = useState<any>([])
+  const [randomArray, setRandomArray] = useState<any>([]);
+
+  const [selectedRadioBtn, setSelectedRadioBtn] = useState("radioSelect");
+
+  const isRadioSelected = (value: string): boolean => selectedRadioBtn === value;
+
+  const changeValue = (event: ChangeEvent<HTMLInputElement>): void => setSelectedRadioBtn(event.currentTarget.value);
 
   //генерация случайного массива
   const onArrayGenerate = () => {
@@ -47,7 +53,6 @@ export const SortingPage: React.FC = () => {
     //console.log('click')
     bubbleSortAsc(randomArray)
   }
-
 
   //сортировка пузырьком по убыванию
   const bubbleSortDesc = (array: any) => {
@@ -93,7 +98,6 @@ export const SortingPage: React.FC = () => {
     selectionSortAsc(randomArray)
   }
 
-
   //сортировка выбором по убыванию
   const selectionSortDesc = (array: any) => {
     for(let n = 0; n < array.length; n++) {
@@ -118,29 +122,43 @@ export const SortingPage: React.FC = () => {
   const onClickSelectionSortDesc = () => {
     selectionSortDesc(randomArray)
   }
+  
+  // 2 в 1 по возрастанию
+  const onClickSortAsc = () => {
+    isRadioSelected("radioBubble") ? onClickBubbleSortAsc() : onClickSelectionSortAsc()
+  }
 
-
+  // 2 в 1 по убыванию
+  const onClickSortDesc = () => {
+    isRadioSelected("radioBubble") ? onClickBubbleSortDesc() : onClickSelectionSortDesc()
+  }
+  
+  
   return (
     <SolutionLayout title="Сортировка массива">
       <section className={styles.main}>
         <div className={styles.radiobutton}>
           <RadioInput 
             label = "Выбор" 
+            value="radioSelect"
+            checked={isRadioSelected("radioSelect")}
+            onChange={changeValue}
           />
           <RadioInput 
-            label = "Пузырёк" 
+            label = "Пузырёк"
+            value="radioBubble"
+            checked={isRadioSelected("radioBubble")}
+            onChange={changeValue} 
           />
         </div>
         <div className={styles.button}>
           <Button 
-            //onClick={onClickBubbleSortAsc}
-            onClick={onClickSelectionSortAsc}
+            onClick={onClickSortAsc}
             text='По возрастанию'
             sorting={Direction.Ascending}
           />
           <Button 
-            //onClick={onClickBubbleSortDesc}
-            onClick={onClickSelectionSortDesc}
+            onClick={onClickSortDesc}
             text='По убыванию'
             sorting={Direction.Descending}
           />
