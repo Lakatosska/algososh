@@ -6,6 +6,7 @@ import styles from "./sorting-page.module.css";
 import { RadioInput } from "../ui/radio-input/radio-input";
 import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
+import { ElementStates } from "../../types/element-states";
 
 export const SortingPage: React.FC = () => {
 
@@ -36,8 +37,8 @@ export const SortingPage: React.FC = () => {
 
   //сортировка пузырьком по возрастанию
   const bubbleSortAsc = (array: any) => {
-    for(let n=0; n < array.length; n++) {
-      for(let i=0; i< array.length - 1 - n; i++) {
+    for(let n = 0; n < array.length; n++) {
+      for(let i = 0; i < array.length - 1 - n; i++) {
         if (array[i] > array[i+1]) {
           const temp = array[i]
           array[i] = array[i+1]
@@ -46,12 +47,49 @@ export const SortingPage: React.FC = () => {
       }
     }
     console.log(array)
-    return array
   }
+
+  const bubbleSortAsc2 = (array: number[]) => {
+    let i = 0;
+    let n = 0; //внешний счетчик
+
+    console.log(array.length)
+
+    const arrValues = array.map(item => {
+      return {
+        symbol: item,
+        state: ElementStates.Default
+      }
+    })
+
+    const bubbleSortInterval = setInterval(() => {
+      console.log(`i=${i}, n=${n}`)
+      i++
+
+      if (i == arrValues.length - n) {
+        n++ 
+        i = 0
+      }
+
+      if (n == arrValues.length - 1) {
+        clearInterval(bubbleSortInterval)
+      }
+
+      if (arrValues[i] > arrValues[i+1]) {
+        const temp = arrValues[i]
+        arrValues[i] = arrValues[i+1]
+        arrValues[i+1] = temp
+      }
+
+      setRandomArray([...arrValues])
+
+    }, 1000)
+  }
+
 
   const onClickBubbleSortAsc = () => {
     //console.log('click')
-    bubbleSortAsc(randomArray)
+    bubbleSortAsc2(randomArray)
   }
 
   //сортировка пузырьком по убыванию
@@ -66,7 +104,6 @@ export const SortingPage: React.FC = () => {
       }
     }
     console.log(array)
-    return array
   }
 
   const onClickBubbleSortDesc = () => {
@@ -91,7 +128,7 @@ export const SortingPage: React.FC = () => {
       array[index] = temp
     }
     console.log(array)
-    return array
+  
   }
 
   const onClickSelectionSortAsc = () => {
@@ -116,7 +153,6 @@ export const SortingPage: React.FC = () => {
       array[index] = temp
     }
     console.log(array)
-    return array
   }
 
   const onClickSelectionSortDesc = () => {

@@ -16,43 +16,31 @@ export const FibonacciPage: React.FC = () => {
   const [inputValue, setInputValue] = useState('')
   const [showValue, setShowValue] = useState<any>([])
 
-  /*
-  useEffect(() => {
-    setInterval(() => {
-      onButtonClick()
-    }, 500);
-  }, []);
-  */
-
   const onButtonClick = useCallback(() => {
-
     const inputNumber = Number(inputValue)
+    let i = 0
+    let res: number[] = []
+    console.log(res)
 
-    const fibonacci = (num: number) => {
-      let res: number[] = [1, 1]
-    
-      for(let i = 2; i <= num; i++) {    
+    const fibonacciInterval = setInterval(() => {
+      
+      if (i >= inputNumber) {
+        clearInterval(fibonacciInterval)
+      }
+
+      if (i < 1) {
+        res = [1]
+      } else if (i < 2) {
+        res = [1, 1]
+      } else {
         res.push(res[i - 1] + res[i - 2])
       }
-    
-      return res
-    }
 
-    /*
-    let x = setInterval(() => {
-      const result = fibonacci(inputNumber)
-      setShowValue(result)
+      i++
+      console.log(res)
+      setShowValue([...res])
     }, 500)
-    return () => clearInterval(x);
-    */
-
-    const result = fibonacci(inputNumber)
-    console.log(result)
-
-    setShowValue(result)
-
   }, [inputValue])
-  
 
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
