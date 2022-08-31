@@ -10,13 +10,16 @@ import { ElementStates } from "../../types/element-states";
 
 export const SortingPage: React.FC = () => {
 
-  const [randomArray, setRandomArray] = useState<any>([]);
+  const [showArray, setShowArray] = useState<any>([]);
 
   const [selectedRadioBtn, setSelectedRadioBtn] = useState("radioSelect");
 
   const isRadioSelected = (value: string): boolean => selectedRadioBtn === value;
 
   const changeValue = (event: ChangeEvent<HTMLInputElement>): void => setSelectedRadioBtn(event.currentTarget.value);
+
+
+  const randomArrayWithState: number[] = []
 
   //генерация случайного массива
   const onArrayGenerate = () => {
@@ -32,9 +35,20 @@ export const SortingPage: React.FC = () => {
     const randomArr = Array(n).fill(null).map(() => Math.floor(Math.random() * 100))
     console.log(randomArr)
 
-    setRandomArray(randomArr)    
+    /*
+
+    const randomArrayWithState = randomArr.map(item => {
+      return {
+        index: item,
+        state: ElementStates.Default
+      }
+    })
+    */
+
+    setShowArray(randomArr)    
   }
 
+  /*
   //сортировка пузырьком по возрастанию
   const bubbleSortAsc = (array: any) => {
     for(let n = 0; n < array.length; n++) {
@@ -48,19 +62,27 @@ export const SortingPage: React.FC = () => {
     }
     console.log(array)
   }
+  */
 
+  
   const bubbleSortAsc2 = (array: number[]) => {
     let i = 0;
     let n = 0; //внешний счетчик
 
     console.log(array.length)
 
+   /*
     const arrValues = array.map(item => {
       return {
-        symbol: item,
+        index: item,
         state: ElementStates.Default
       }
     })
+    */
+    
+    const arrValues = [...array]
+    
+    //const arrValues = [...randomArrayWithState]
 
     const bubbleSortInterval = setInterval(() => {
       console.log(`i=${i}, n=${n}`)
@@ -81,15 +103,16 @@ export const SortingPage: React.FC = () => {
         arrValues[i+1] = temp
       }
 
-      setRandomArray([...arrValues])
+      setShowArray([...arrValues])
 
-    }, 1000)
+    }, 500)
   }
+  
 
 
   const onClickBubbleSortAsc = () => {
     //console.log('click')
-    bubbleSortAsc2(randomArray)
+    bubbleSortAsc2(showArray)
   }
 
   //сортировка пузырьком по убыванию
@@ -107,7 +130,7 @@ export const SortingPage: React.FC = () => {
   }
 
   const onClickBubbleSortDesc = () => {
-    bubbleSortDesc(randomArray)
+    bubbleSortDesc(showArray)
   }
 
   //сортировка выбором по возрастанию
@@ -132,7 +155,7 @@ export const SortingPage: React.FC = () => {
   }
 
   const onClickSelectionSortAsc = () => {
-    selectionSortAsc(randomArray)
+    selectionSortAsc(showArray)
   }
 
   //сортировка выбором по убыванию
@@ -156,7 +179,7 @@ export const SortingPage: React.FC = () => {
   }
 
   const onClickSelectionSortDesc = () => {
-    selectionSortDesc(randomArray)
+    selectionSortDesc(showArray)
   }
   
   // 2 в 1 по возрастанию
@@ -206,9 +229,10 @@ export const SortingPage: React.FC = () => {
 
       <section className={styles.columns}>
       {
-        randomArray.map((item: any, index: any) => {
+        showArray.map((item: any, index: any) => {
           return (
             <Column
+             
               index={item}
               key={index}
             />
@@ -219,3 +243,17 @@ export const SortingPage: React.FC = () => {
     </SolutionLayout>
   );
 };
+
+/*
+{
+        showArray.map((item: any, index: any) => {
+          return (
+            <Column
+              state={item.state}
+              index={item.index}
+              key={index}
+            />
+          )
+        })
+      }
+*/
