@@ -1,0 +1,12 @@
+.form {
+  margin: 0 auto;
+  display: flex;
+  width: 829px;
+  justify-content: space-between;
+}
+
+.input {
+  width: 630px;
+  display: flex;
+  gap: 12px;
+}
