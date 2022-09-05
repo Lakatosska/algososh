@@ -4,6 +4,12 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import styles from "./queue-page.module.css";
 
+interface IQueue<T> {
+  enqueue: (item: T) => void;
+  dequeue: () => void;
+  peak: () => T | null;
+} 
+
 export const QueuePage: React.FC = () => {
 
   const onValueAdd = () => {
@@ -15,7 +21,7 @@ export const QueuePage: React.FC = () => {
   }
 
   const onValuesClear = () => {
-    console.log('очистили стек')
+    console.log('очистили очередь')
   }
 
   return (

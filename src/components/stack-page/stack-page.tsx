@@ -1,23 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import styles from "./stack-page.module.css";
+import { Circle } from "../ui/circle/circle";
+import { ElementStates } from "../../types/element-states";
+import { Stack } from "./utils";
+
+//! убедиться, что в стеке есть элементы перед удалением или если надо вернуть верхний
+/*
+interface IStack<T> {
+  push: (item: T) => void;
+  pop: () => void;
+  peak: () => T | null;
+} 
+*/
+
+interface IStack {
+  letter: string;
+  state: ElementStates;
+}
+
+const stack = new Stack<IStack>();
 
 export const StackPage: React.FC = () => {
 
+  const [inputValue, setInputValue] = useState('')
+  const [showValue, setShowValue] = useState<any>([])
+
   const onValueAdd = () => {
-    console.log('добавили значение')
+    if (!inputValue) return;
+
+    stack.push({ letter: inputValue, state: ElementStates.Changing });
+    setShowValue([...stack.elements]);
+
+    setTimeout(() => {
+      stack.setByIndex(stack.size - 1, {
+        letter: inputValue,
+        state: ElementStates.Default,
+      });
+      setShowValue([...stack.elements]);
+    }, 500);
   }
 
   const onValueDelete = () => {
-    console.log('удалили значение')
+
+    setTimeout(() => {
+      stack.setByIndex(stack.size - 1, {
+        letter: inputValue,
+        state: ElementStates.Changing,
+      });
+    }, 500);
+
+    stack.pop();
+
+    setShowValue([...stack.elements]);
   }
 
   const onValuesClear = () => {
-    console.log('очистили стек')
+    //stack.elements = ''
+    setShowValue('');
   }
-
 
   return (
     <SolutionLayout title="Стек">
@@ -26,7 +69,7 @@ export const StackPage: React.FC = () => {
           <Input 
             maxLength={4}
             isLimitText
-            
+            onChange={(e) => setInputValue(e.currentTarget.value)}
           />
           <Button onClick={onValueAdd}
             text='Добавить'
@@ -39,9 +82,24 @@ export const StackPage: React.FC = () => {
         <Button onClick={onValuesClear}
           text='Очистить'
         />
-
       </section>
 
+      <section className={styles.circles}>
+      
+        {showValue.length > 0 &&
+          showValue.map((item: any, index: any) => {
+            return (
+              <Circle
+                letter={item.letter}
+                //index={index}
+                key={index}
+                state={item.state}
+                head={`${index === showValue.length - 1 ? 'top' : ''}`}
+              />
+            )
+          })
+        }
+      </section>
     </SolutionLayout>
-  );
-};
+  )
+}
