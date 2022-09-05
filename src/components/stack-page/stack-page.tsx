@@ -32,6 +32,7 @@ export const StackPage: React.FC = () => {
     if (!inputValue) return;
 
     stack.push({ letter: inputValue, state: ElementStates.Changing });
+    setInputValue('')
     setShowValue([...stack.elements]);
 
     setTimeout(() => {
@@ -40,25 +41,28 @@ export const StackPage: React.FC = () => {
         state: ElementStates.Default,
       });
       setShowValue([...stack.elements]);
+
     }, 500);
   }
 
   const onValueDelete = () => {
 
-    setTimeout(() => {
-      stack.setByIndex(stack.size - 1, {
-        letter: inputValue,
-        state: ElementStates.Changing,
-      });
-    }, 500);
-
-    stack.pop();
+    stack.setByIndex(stack.size - 1, {
+      letter: stack.elements[stack.size - 1].letter,
+      state: ElementStates.Changing,
+    });
 
     setShowValue([...stack.elements]);
+
+    setTimeout(() => {
+      stack.pop();
+      setShowValue([...stack.elements]);
+    }, 500);
+    
   }
 
   const onValuesClear = () => {
-    //stack.elements = ''
+    stack.clear();
     setShowValue('');
   }
 
@@ -70,6 +74,7 @@ export const StackPage: React.FC = () => {
             maxLength={4}
             isLimitText
             onChange={(e) => setInputValue(e.currentTarget.value)}
+            value={inputValue}
           />
           <Button onClick={onValueAdd}
             text='Добавить'

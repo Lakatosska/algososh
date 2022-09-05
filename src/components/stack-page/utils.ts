@@ -1,27 +1,27 @@
 export class Stack<T> {
-  private _elements: T[] = [];
+  _elements: T[] = [];
 
-  public get elements() {
+  get elements() {
     return this._elements;
   }
 
-  public get size() {
+  get size() {
     return this.elements.length;
   }
 
-  public push(item: T): void {
+  push(item: T): void {
     this._elements.push(item);
   }
 
-  public pop() {
+  pop(): void {
     this._elements.pop();
   }
 
-  public clear() {
+  clear(): void {
     this._elements = [];
   }
 
-  public setByIndex(index: number, item: T) {
+  setByIndex(index: number, item: T) {
     this._elements[index] = item;
   }
 }

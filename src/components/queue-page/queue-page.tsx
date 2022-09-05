@@ -1,27 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import styles from "./queue-page.module.css";
+import { Circle } from "../ui/circle/circle";
+import { ElementStates } from "../../types/element-states";
+import { Queue } from "./utils";
 
+/*
 interface IQueue<T> {
   enqueue: (item: T) => void;
   dequeue: () => void;
   peak: () => T | null;
 } 
+*/
+
+interface IQueue {
+  letter: string;
+  state: ElementStates;
+}
+
+const queue = new Queue<IQueue>();
 
 export const QueuePage: React.FC = () => {
 
+  const [inputValue, setInputValue] = useState('')
+  const [showValue, setShowValue] = useState<IQueue[]>(Array(7).fill({letter: '', state: ElementStates.Default}))
+
+  const render = () => {
+    return (
+      showValue.map((_, index) => {
+        if (queue.elements[index - queue.startPosition]) {
+          return queue.elements[index - queue.startPosition]
+        }
+        return {letter: '', state: ElementStates.Default}
+      })
+    )
+  }
+
   const onValueAdd = () => {
-    console.log('добавили значение')
+    queue.enqueue({ letter: inputValue, state: ElementStates.Changing });
+    setShowValue(render())
   }
 
   const onValueDelete = () => {
-    console.log('удалили значение')
+    queue.dequeue();
+    setShowValue(render());
   }
 
   const onValuesClear = () => {
-    console.log('очистили очередь')
+    queue.clear();
+    setShowValue(render());
   }
 
   return (
@@ -31,7 +60,7 @@ export const QueuePage: React.FC = () => {
           <Input 
             maxLength={4}
             isLimitText
-            
+            onChange={(e) => setInputValue(e.currentTarget.value)}
           />
           <Button onClick={onValueAdd}
             text='Добавить'
@@ -47,6 +76,24 @@ export const QueuePage: React.FC = () => {
 
       </section>
 
+      <section className={styles.circles}>
+
+      {
+          showValue.map((item: any, index: any) => {
+            return (
+              <Circle
+                letter={item.letter}
+                index={index}
+                key={index}
+                state={item.state}
+                tail={`${index === showValue.length - 1 ? 'top' : ''}`}
+                head={`${index === showValue[0] ? 'top' : ''}`}
+              />
+            )
+          })
+        }
+           
+      </section>
     </SolutionLayout>
   );
-};
+}
