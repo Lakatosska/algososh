@@ -7,13 +7,6 @@ import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { Queue } from "./utils";
 
-/*
-interface IQueue<T> {
-  enqueue: (item: T) => void;
-  dequeue: () => void;
-  peak: () => T | null;
-} 
-*/
 
 interface IQueue {
   letter: string;
@@ -26,6 +19,8 @@ export const QueuePage: React.FC = () => {
 
   const [inputValue, setInputValue] = useState('')
   const [showValue, setShowValue] = useState<IQueue[]>(Array(7).fill({letter: '', state: ElementStates.Default}))
+  const [headIndex, setHeadIndex] = useState(-1);
+  const [tailIndex, setTailIndex] = useState(-1);
 
   const render = () => {
     return (
@@ -44,6 +39,8 @@ export const QueuePage: React.FC = () => {
     setShowValue(render())
 
     setTimeout(() => {
+      setHeadIndex(queue.head);
+      setTailIndex(queue.tail);
       queue.setByIndex(queue.size - 1, {
         letter: inputValue,
         state: ElementStates.Default,
@@ -54,25 +51,25 @@ export const QueuePage: React.FC = () => {
   }
 
   const onValueDelete = () => {
+    if (tailIndex === -1) return;
+    queue.dequeue();
 
-    queue.setByIndex(queue.size - 3, {
-      letter: queue.elements[queue.size - 3].letter,
-      state: ElementStates.Changing,
-    });
-
-    setShowValue(render());
+    let arr = [...showValue];
+    arr[headIndex] = { ...arr[headIndex], state: ElementStates.Changing };    
+    setShowValue([...arr]);
 
     setTimeout(() => {
-      queue.dequeue();
+      setHeadIndex(queue.head);
+      setTailIndex(queue.tail);
       setShowValue(render());
     }, 500);
   }
 
-  
-
   const onValuesClear = () => {
     queue.clear();
     setShowValue(render());
+    setHeadIndex(queue.head);
+    setTailIndex(queue.tail);
   }
 
   return (
@@ -107,13 +104,12 @@ export const QueuePage: React.FC = () => {
                 index={index}
                 key={index}
                 state={item.state}
-                tail={`${index === showValue.length - 1 ? 'top' : ''}`}
-                head={`${index === showValue[0] ? 'top' : ''}`}
+                head={`${index === headIndex ? 'head' : ''}`}
+                tail={`${index === tailIndex ? 'tail' : ''}`}
               />
             )
           })
-        }
-           
+        } 
       </section>
     </SolutionLayout>
   );
