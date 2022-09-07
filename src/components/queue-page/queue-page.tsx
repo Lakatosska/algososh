@@ -7,7 +7,6 @@ import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { Queue } from "./utils";
 
-
 interface IQueue {
   letter: string;
   state: ElementStates;
@@ -54,9 +53,8 @@ export const QueuePage: React.FC = () => {
     if (tailIndex === -1) return;
     queue.dequeue();
 
-    let arr = [...showValue];
-    arr[headIndex] = { ...arr[headIndex], state: ElementStates.Changing };    
-    setShowValue([...arr]);
+    showValue[headIndex].state = ElementStates.Changing; 
+    setShowValue([...showValue]);
 
     setTimeout(() => {
       setHeadIndex(queue.head);
