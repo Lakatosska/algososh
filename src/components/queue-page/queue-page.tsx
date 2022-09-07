@@ -40,13 +40,35 @@ export const QueuePage: React.FC = () => {
 
   const onValueAdd = () => {
     queue.enqueue({ letter: inputValue, state: ElementStates.Changing });
+    setInputValue('')
     setShowValue(render())
+
+    setTimeout(() => {
+      queue.setByIndex(queue.size - 1, {
+        letter: inputValue,
+        state: ElementStates.Default,
+      });
+      setShowValue(render());
+
+    }, 500);
   }
 
   const onValueDelete = () => {
-    queue.dequeue();
+
+    queue.setByIndex(queue.size - 3, {
+      letter: queue.elements[queue.size - 3].letter,
+      state: ElementStates.Changing,
+    });
+
     setShowValue(render());
+
+    setTimeout(() => {
+      queue.dequeue();
+      setShowValue(render());
+    }, 500);
   }
+
+  
 
   const onValuesClear = () => {
     queue.clear();
@@ -73,7 +95,6 @@ export const QueuePage: React.FC = () => {
         <Button onClick={onValuesClear}
           text='Очистить'
         />
-
       </section>
 
       <section className={styles.circles}>

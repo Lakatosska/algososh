@@ -32,6 +32,14 @@ export class Queue<T> {
     this.startPosition = 0;
   }
 
+  setByIndex(index: number, item: T) {
+    this._elements[index] = item;
+  }
+
+  get size() {
+    return this.elements.length;
+  }
+
   //enqueue
   //dequeue
   //clear
