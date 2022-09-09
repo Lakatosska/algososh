@@ -6,7 +6,6 @@ import styles from "./string.module.css";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 
-
 interface LetterProps {
   symbol: string,
   state?: ElementStates
@@ -40,13 +39,13 @@ export const StringComponent: React.FC = () => {
         setShowValue([...arr]);
 
         setTimeout(() => {
-          let curr = arr[start].symbol;
+          let swapedSymbol = arr[start].symbol;
           arr[start] = {
             symbol: arr[end].symbol,
             state: ElementStates.Modified,
           };
           arr[end] = {
-            symbol: curr,
+            symbol: swapedSymbol,
             state: ElementStates.Modified,
           }
           setShowValue([...arr]);

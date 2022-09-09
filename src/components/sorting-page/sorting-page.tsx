@@ -1,4 +1,4 @@
-import React, { useCallback, useState, ChangeEvent } from "react";
+import React, { useCallback, useState, ChangeEvent, useEffect } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
@@ -8,81 +8,92 @@ import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
 import { ElementStates } from "../../types/element-states";
 
+interface LetterProps {
+  symbol: string | number,
+  state?: ElementStates
+}
+
+export type TSelector = 'descending' | 'ascending';
+
+export const delay = (
+  time: number
+) => new Promise(resolve => setTimeout(resolve, time));
+
+const swap = (
+  arr: LetterProps[], 
+  firstIndex: number, 
+  secondIndex: number
+): void => {
+  const temp = arr[firstIndex].symbol;
+  arr[firstIndex].symbol = arr[secondIndex].symbol;
+  arr[secondIndex].symbol = temp;
+};
+
 export const SortingPage: React.FC = () => {
 
-  const [showArray, setShowArray] = useState<any>([]);
-
+  const [showArray, setShowArray] = useState<LetterProps[]>([]);
   const [selectedRadioBtn, setSelectedRadioBtn] = useState("radioSelect");
 
   const isRadioSelected = (value: string): boolean => selectedRadioBtn === value;
 
   const changeValue = (event: ChangeEvent<HTMLInputElement>): void => setSelectedRadioBtn(event.currentTarget.value);
 
+  useEffect(() => {
+    onArrayGenerate();
+  }, [])
 
-  const randomArrayWithState: number[] = []
 
   //генерация случайного массива
   const onArrayGenerate = () => {
-    let n 
-
-    const getRandomArbitrary = (min: any, max: any) => {
+    const getRandomArbitrary = (min: number, max: number) => {
       return Math.floor(Math.random() * (max - min) + min);
     }
 
-    n = getRandomArbitrary(3, 18)
-    //console.log(n)
-
+    const n = getRandomArbitrary(3, 18)
     const randomArr = Array(n).fill(null).map(() => Math.floor(Math.random() * 100))
-    console.log(randomArr)
+    
+    const arr = randomArr.map(symbol => ({symbol, state: ElementStates.Default}))
+   
+    console.log(arr)
+    setShowArray(arr)
+  }
 
-    /*
+  const bubbleSort = async (arr: LetterProps[], selector: TSelector) => {
+    if (arr[0].state !== ElementStates.Default) {
+      arr.forEach(item => item.state = ElementStates.Default);
+    }
 
-    const randomArrayWithState = randomArr.map(item => {
-      return {
-        index: item,
-        state: ElementStates.Default
+    for (let i = 0; i < arr.length - 1; i++) {
+      let maxInd = i;
+      let minInd = i;
+      for (let j = i + 1; j < arr.length; j++) {
+        arr[i].state = ElementStates.Changing;
+        arr[j].state = ElementStates.Changing;
+        setShowArray([...arr]);
+        await delay(500);
+        if (selector === 'descending' && arr[maxInd].symbol < arr[j].symbol) {
+          maxInd = j;
+        }
+        if (selector === 'ascending' && arr[minInd].symbol > arr[j].symbol) {
+          minInd = j;
+        }
+        arr[j].state = ElementStates.Default;
+        setShowArray([...arr]);
       }
-    })
-    */
-
-    setShowArray(randomArr)    
+      selector === 'descending' && swap(arr, i, maxInd);
+      selector === 'ascending' && swap(arr, i, minInd);
+      arr[i].state = ElementStates.Modified;
+    }
+    arr[arr.length - 1].state = ElementStates.Modified;
+    setShowArray([...arr]);
   }
 
   /*
-  //сортировка пузырьком по возрастанию
-  const bubbleSortAsc = (array: any) => {
-    for(let n = 0; n < array.length; n++) {
-      for(let i = 0; i < array.length - 1 - n; i++) {
-        if (array[i] > array[i+1]) {
-          const temp = array[i]
-          array[i] = array[i+1]
-          array[i+1] = temp
-        }
-      }
-    }
-    console.log(array)
-  }
-  */
-
-  
   const bubbleSortAsc2 = (array: number[]) => {
     let i = 0;
     let n = 0; //внешний счетчик
-
-    console.log(array.length)
-
-   /*
-    const arrValues = array.map(item => {
-      return {
-        index: item,
-        state: ElementStates.Default
-      }
-    })
-    */
     
     const arrValues = [...array]
-    
-    //const arrValues = [...randomArrayWithState]
 
     const bubbleSortInterval = setInterval(() => {
       console.log(`i=${i}, n=${n}`)
@@ -107,30 +118,15 @@ export const SortingPage: React.FC = () => {
 
     }, 500)
   }
-  
+  */
 
 
   const onClickBubbleSortAsc = () => {
-    //console.log('click')
-    bubbleSortAsc2(showArray)
-  }
-
-  //сортировка пузырьком по убыванию
-  const bubbleSortDesc = (array: any) => {
-    for(let n=0; n < array.length; n++) {
-      for(let i=0; i< array.length - 1 - n; i++) {
-        if (array[i] < array[i+1]) {
-          const temp = array[i]
-          array[i] = array[i+1]
-          array[i+1] = temp
-        }
-      }
-    }
-    console.log(array)
+    bubbleSort(showArray, 'ascending')
   }
 
   const onClickBubbleSortDesc = () => {
-    bubbleSortDesc(showArray)
+    bubbleSort(showArray, 'descending')
   }
 
   //сортировка выбором по возрастанию
@@ -232,9 +228,9 @@ export const SortingPage: React.FC = () => {
         showArray.map((item: any, index: any) => {
           return (
             <Column
-             
-              index={item}
+              index={item.symbol}
               key={index}
+              state={item.state}
             />
           )
         })
