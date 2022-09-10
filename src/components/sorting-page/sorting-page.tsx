@@ -13,9 +13,9 @@ interface LetterProps {
   state?: ElementStates
 }
 
-export type TSelector = 'descending' | 'ascending';
+type TSelector = 'descending' | 'ascending';
 
-export const delay = (
+const delay = (
   time: number
 ) => new Promise(resolve => setTimeout(resolve, time));
 
@@ -63,63 +63,53 @@ export const SortingPage: React.FC = () => {
       arr.forEach(item => item.state = ElementStates.Default);
     }
 
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = 0; j < arr.length - i - 1; j++) {
+        arr[j].state = ElementStates.Changing;
+        arr[j + 1].state = ElementStates.Changing;
+        setShowArray([...arr]);
+        await delay(500);
+        if (
+          (selector === 'ascending' && arr[j].symbol > arr[j + 1].symbol) ||
+          (selector === 'descending' && arr[j].symbol < arr[j + 1].symbol)
+        ) {
+          swap(arr, j, j + 1);
+        }
+        arr[j].state = ElementStates.Default;
+      }
+      arr[arr.length - i - 1].state = ElementStates.Modified;
+    }
+    setShowArray([...arr]);
+  }
+
+  const selectionSort = async (arr: LetterProps[], selector: TSelector) => {
+    if (arr[0].state !== ElementStates.Default) {
+      arr.forEach(item => item.state = ElementStates.Default);
+    }
     for (let i = 0; i < arr.length - 1; i++) {
-      let maxInd = i;
       let minInd = i;
+      let maxInd = i;
       for (let j = i + 1; j < arr.length; j++) {
         arr[i].state = ElementStates.Changing;
         arr[j].state = ElementStates.Changing;
         setShowArray([...arr]);
         await delay(500);
-        if (selector === 'descending' && arr[maxInd].symbol < arr[j].symbol) {
-          maxInd = j;
-        }
         if (selector === 'ascending' && arr[minInd].symbol > arr[j].symbol) {
           minInd = j;
+        }
+        if (selector === 'descending' && arr[maxInd].symbol < arr[j].symbol) {
+          maxInd = j;
         }
         arr[j].state = ElementStates.Default;
         setShowArray([...arr]);
       }
-      selector === 'descending' && swap(arr, i, maxInd);
       selector === 'ascending' && swap(arr, i, minInd);
+      selector === 'descending' && swap(arr, i, maxInd);
       arr[i].state = ElementStates.Modified;
     }
     arr[arr.length - 1].state = ElementStates.Modified;
     setShowArray([...arr]);
   }
-
-  /*
-  const bubbleSortAsc2 = (array: number[]) => {
-    let i = 0;
-    let n = 0; //внешний счетчик
-    
-    const arrValues = [...array]
-
-    const bubbleSortInterval = setInterval(() => {
-      console.log(`i=${i}, n=${n}`)
-      i++
-
-      if (i == arrValues.length - n) {
-        n++ 
-        i = 0
-      }
-
-      if (n == arrValues.length - 1) {
-        clearInterval(bubbleSortInterval)
-      }
-
-      if (arrValues[i] > arrValues[i+1]) {
-        const temp = arrValues[i]
-        arrValues[i] = arrValues[i+1]
-        arrValues[i+1] = temp
-      }
-
-      setShowArray([...arrValues])
-
-    }, 500)
-  }
-  */
-
 
   const onClickBubbleSortAsc = () => {
     bubbleSort(showArray, 'ascending')
@@ -129,53 +119,12 @@ export const SortingPage: React.FC = () => {
     bubbleSort(showArray, 'descending')
   }
 
-  //сортировка выбором по возрастанию
-  const selectionSortAsc = (array: any) => {
-    for(let n = 0; n < array.length; n++) {
-      let max = 0
-      let index = 0
-
-      for(let i = 0; i < array.length - n; i++) {
-        if (array[i] > max) {
-          max = array[i]
-          index = i
-        }
-      }
-
-      const temp = array[array.length - 1 - n]
-      array[array.length - 1 - n] = max
-      array[index] = temp
-    }
-    console.log(array)
-  
-  }
-
   const onClickSelectionSortAsc = () => {
-    selectionSortAsc(showArray)
-  }
-
-  //сортировка выбором по убыванию
-  const selectionSortDesc = (array: any) => {
-    for(let n = 0; n < array.length; n++) {
-      let min = 100
-      let index = 0
-
-      for(let i = 0; i < array.length - n; i++) {
-        if (array[i] < min) {
-          min = array[i]
-          index = i
-        }
-      }
-
-      const temp = array[array.length - 1 - n]
-      array[array.length - 1 - n] = min
-      array[index] = temp
-    }
-    console.log(array)
+    selectionSort(showArray, 'ascending')
   }
 
   const onClickSelectionSortDesc = () => {
-    selectionSortDesc(showArray)
+    selectionSort(showArray, 'descending')
   }
   
   // 2 в 1 по возрастанию
@@ -187,7 +136,6 @@ export const SortingPage: React.FC = () => {
   const onClickSortDesc = () => {
     isRadioSelected("radioBubble") ? onClickBubbleSortDesc() : onClickSelectionSortDesc()
   }
-  
   
   return (
     <SolutionLayout title="Сортировка массива">
