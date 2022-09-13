@@ -15,3 +15,44 @@
   grid-template-columns: 204px repeat(2, 362px);
   column-gap: 12px;
 }
+
+.circles {
+  display: flex;
+  justify-content: center;
+  margin: 56px auto 0;
+  flex-wrap: wrap;
+  max-width: 944px;
+  align-content: space-between;
+  min-height: 238px;
+  gap: 16px;
+  align-items: center;
+}
+
+.mainCircles {
+  width: 104px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.circleAndArrow {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.topSmallCircle {
+  position: absolute;
+  top: 0;
+  margin-left: 11px;
+}
+
+.bottomSmallCircle {
+  position: absolute;
+  bottom: -30px;
+  margin-left: 11px;
+}

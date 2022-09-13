@@ -1,6 +1,5 @@
 import React, { useCallback, useState, ChangeEvent, useEffect } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
-import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import styles from "./sorting-page.module.css";
 import { RadioInput } from "../ui/radio-input/radio-input";
@@ -42,7 +41,6 @@ export const SortingPage: React.FC = () => {
     onArrayGenerate();
   }, [])
 
-
   //генерация случайного массива
   const onArrayGenerate = () => {
     const getRandomArbitrary = (min: number, max: number) => {
@@ -53,8 +51,7 @@ export const SortingPage: React.FC = () => {
     const randomArr = Array(n).fill(null).map(() => Math.floor(Math.random() * 100))
     
     const arr = randomArr.map(symbol => ({symbol, state: ElementStates.Default}))
-   
-    console.log(arr)
+
     setShowArray(arr)
   }
 
@@ -185,19 +182,5 @@ export const SortingPage: React.FC = () => {
       }
       </section>
     </SolutionLayout>
-  );
-};
-
-/*
-{
-        showArray.map((item: any, index: any) => {
-          return (
-            <Column
-              state={item.state}
-              index={item.index}
-              key={index}
-            />
-          )
-        })
-      }
-*/
+  )
+}
