@@ -53,13 +53,4 @@ export class Queue<T> {
   get size() {
     return this.elements.length;
   }
-
-  //enqueue
-  //dequeue
-  //clear
-  //геттеры:
-  //isEmpty
-  //elements
-  //head
-  //tail
 }

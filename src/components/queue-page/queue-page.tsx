@@ -32,7 +32,17 @@ export const QueuePage: React.FC = () => {
     )
   }
 
+  const resetInput = () => {
+    setInputValue('');
+  }
+
   const onValueAdd = () => {
+    if (
+      tailIndex === showValue.length - 1 ||
+      headIndex === showValue.length - 1 ||
+      !inputValue
+    ) return null;
+
     queue.enqueue({ letter: inputValue, state: ElementStates.Changing });
     setInputValue('')
     setShowValue(render())
@@ -45,12 +55,14 @@ export const QueuePage: React.FC = () => {
         state: ElementStates.Default,
       });
       setShowValue(render());
+      setInputValue('')
+      resetInput();
 
     }, 500);
   }
 
   const onValueDelete = () => {
-    if (tailIndex === -1) return;
+    if (tailIndex === -1) return null;
     queue.dequeue();
 
     showValue[headIndex].state = ElementStates.Changing; 
@@ -93,9 +105,8 @@ export const QueuePage: React.FC = () => {
       </section>
 
       <section className={styles.circles}>
-
-      {
-          showValue.map((item: any, index: any) => {
+        {showValue.length > 0 &&
+          showValue.map((item, index) => {
             return (
               <Circle
                 letter={item.letter}

@@ -18,22 +18,19 @@
 
 .circles {
   display: flex;
-  justify-content: center;
-  margin: 56px auto 0;
-  flex-wrap: wrap;
-  max-width: 944px;
-  align-content: space-between;
-  min-height: 238px;
-  gap: 16px;
   align-items: center;
+  justify-content: center;
+  margin-top: 35px;
+  height: 250px;
+  gap: 32px;
 }
 
-.mainCircles {
-  width: 104px;
-  height: 250px;
+.container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 102px;
+  height: 250px;
   position: relative;
 }
 
@@ -43,6 +40,7 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  gap: 16px;
 }
 
 .topSmallCircle {

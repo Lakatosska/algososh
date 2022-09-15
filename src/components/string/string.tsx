@@ -1,30 +1,37 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, FormEvent } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import styles from "./string.module.css";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
+import { DELAY_IN_MS } from "../../constants/delays";
 
-interface LetterProps {
+interface ILetterProps {
   symbol: string,
   state?: ElementStates
 }
 
 export const StringComponent: React.FC = () => {
 
-  const [inputValue, setInputValue] = useState('')
-  const [showValue, setShowValue] = useState<LetterProps[]>([])
+  const [inputValue, setInputValue] = useState('');
+  const [showValue, setShowValue] = useState<ILetterProps[]>([]);
+  const [loader, setLoader] = useState(false);
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoader(true);
+    onButtonClick();
+  };
 
   const onButtonClick = useCallback(() => {
-
     const inputs = inputValue.split('').map(item=> {
       return {
         symbol: item,
         state: ElementStates.Default
       }
     })
-
+    
     setShowValue(inputs)
 
     let arr = [...inputs]
@@ -49,27 +56,27 @@ export const StringComponent: React.FC = () => {
             state: ElementStates.Modified,
           }
           setShowValue([...arr]);
-        }, 1000);
-      }, 1000 * i);
+          setLoader(false);
+        }, DELAY_IN_MS);
+
+      }, DELAY_IN_MS * i);
     }
   }, [inputValue])
 
-
   return (
     <SolutionLayout title="Строка">
-      <section className={styles.form}>
-    
+      <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
         <Input 
           maxLength={11}
           isLimitText
           onChange = {(e) => setInputValue(e.currentTarget.value)}
         />
-        <Button onClick={onButtonClick}
+        <Button
+          type='submit'
           text='Развернуть'
+          isLoader={loader}
         />
-   
-      </section>
-
+      </form>
       <section className={styles.circles}>
       {
         showValue.map((item, index) => {
