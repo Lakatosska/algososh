@@ -1,31 +1,32 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, FormEvent } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import styles from "./fibonacci-page.module.css";
-import { ElementStates } from "../../types/element-states";
 import { Circle } from "../ui/circle/circle";
-
-interface NumberProps {
-  symbol: string,
-  state?: ElementStates
-}
 
 export const FibonacciPage: React.FC = () => {
 
-  const [inputValue, setInputValue] = useState('')
-  const [showValue, setShowValue] = useState<any>([])
+  const [inputValue, setInputValue] = useState('');
+  const [showValue, setShowValue] = useState<number[]>([]);
+  const [loader, setLoader] = useState(false);
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoader(true);
+    onButtonClick();
+  };
 
   const onButtonClick = useCallback(() => {
     const inputNumber = Number(inputValue)
     let i = 0
     let res: number[] = []
-    console.log(res)
 
     const fibonacciInterval = setInterval(() => {
       
       if (i >= inputNumber) {
         clearInterval(fibonacciInterval)
+        setLoader(false);
       }
 
       if (i < 1) {
@@ -37,27 +38,26 @@ export const FibonacciPage: React.FC = () => {
       }
 
       i++
-      console.log(res)
       setShowValue([...res])
     }, 500)
   }, [inputValue])
 
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
-      <section className={styles.main}>
+      <form className={styles.main} onSubmit={(e) => handleSubmit(e)}>
         <Input 
-          
           isLimitText
           max={19}
           type=''
           onChange={(e) => setInputValue(e.currentTarget.value)}
-        
         />
         <Button 
-          onClick={onButtonClick}
-          text='Рассчитать'/>
-      </section>
-      <section className={styles.circles}>
+          type='submit'
+          text='Рассчитать'
+          isLoader={loader}
+        />
+      </form>
+      <div className={styles.circles}>
         {
           showValue.map((item: any, index: any) => {
             return (
@@ -69,7 +69,7 @@ export const FibonacciPage: React.FC = () => {
             )
           })
         }
-      </section>
+      </div>
     </SolutionLayout>
   );
-};
+}

@@ -77,7 +77,7 @@ export const StringComponent: React.FC = () => {
           isLoader={loader}
         />
       </form>
-      <section className={styles.circles}>
+      <div className={styles.circles}>
       {
         showValue.map((item, index) => {
           return (
@@ -89,7 +89,7 @@ export const StringComponent: React.FC = () => {
           )
         })
       }
-      </section>
+      </div>
     </SolutionLayout>
   )
 }
