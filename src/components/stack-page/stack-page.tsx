@@ -7,14 +7,6 @@ import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { Stack } from "./utils";
 
-//! убедиться, что в стеке есть элементы перед удалением или если надо вернуть верхний
-/*
-interface IStack<T> {
-  push: (item: T) => void;
-  pop: () => void;
-  peak: () => T | null;
-} 
-*/
 
 interface IStack {
   letter: string;
@@ -25,11 +17,13 @@ const stack = new Stack<IStack>();
 
 export const StackPage: React.FC = () => {
 
-  const [inputValue, setInputValue] = useState('')
-  const [showValue, setShowValue] = useState<any>([])
+  const [inputValue, setInputValue] = useState<string>('');
+  const [showValue, setShowValue] = useState<IStack[]>([]);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const onValueAdd = () => {
     if (!inputValue) return;
+    setLoader(true);
 
     stack.push({ letter: inputValue, state: ElementStates.Changing });
     setInputValue('')
@@ -41,11 +35,12 @@ export const StackPage: React.FC = () => {
         state: ElementStates.Default,
       });
       setShowValue([...stack.elements]);
-
+      setLoader(false);
     }, 500);
   }
 
   const onValueDelete = () => {
+    setLoader(true);
 
     stack.setByIndex(stack.size - 1, {
       letter: stack.elements[stack.size - 1].letter,
@@ -58,12 +53,12 @@ export const StackPage: React.FC = () => {
       stack.pop();
       setShowValue([...stack.elements]);
     }, 500);
-    
+    setLoader(false);    
   }
 
   const onValuesClear = () => {
     stack.clear();
-    setShowValue('');
+    setShowValue([...stack.elements]);
   }
 
   return (
@@ -78,9 +73,11 @@ export const StackPage: React.FC = () => {
           />
           <Button onClick={onValueAdd}
             text='Добавить'
+            disabled={loader}
           />
           <Button onClick={onValueDelete}
             text='Удалить'
+            disabled={loader}
           />
         </div>
 
@@ -90,7 +87,6 @@ export const StackPage: React.FC = () => {
       </section>
 
       <section className={styles.circles}>
-      
         {showValue.length > 0 &&
           showValue.map((item: any, index: any) => {
             return (

@@ -23,6 +23,6 @@
   display: flex;
   gap: 10px;
   justify-content: center;
-  align-items: baseline;
-  height: 348px;  
+  align-items: flex-end;
+  min-height: 348px;  
 }

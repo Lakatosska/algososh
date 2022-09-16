@@ -14,9 +14,9 @@ interface ILetterProps {
 
 export const StringComponent: React.FC = () => {
 
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState<string>('');
   const [showValue, setShowValue] = useState<ILetterProps[]>([]);
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -4,12 +4,13 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import styles from "./fibonacci-page.module.css";
 import { Circle } from "../ui/circle/circle";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const FibonacciPage: React.FC = () => {
 
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState<string>('');
   const [showValue, setShowValue] = useState<number[]>([]);
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState<boolean>(false);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,7 +40,7 @@ export const FibonacciPage: React.FC = () => {
 
       i++
       setShowValue([...res])
-    }, 500)
+    }, SHORT_DELAY_IN_MS)
   }, [inputValue])
 
   return (
