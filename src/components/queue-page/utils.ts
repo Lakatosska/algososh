@@ -9,7 +9,7 @@ export class Queue<T> {
   }
 
   get isEmpty() {
-    return this.headIndex === this.tailIndex;
+    return this._elements.length === 0;
   }
 
   get head() {
@@ -43,7 +43,10 @@ export class Queue<T> {
 
   clear(): void {
     this._elements = [];
-    this.startPosition = 0;
+    //this.startPosition = 0;
+    this.headIndex = -1;
+    this.tailIndex = -1;
+
   }
 
   setByIndex(index: number, item: T) {

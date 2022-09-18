@@ -6,6 +6,7 @@ import styles from "./queue-page.module.css";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { Queue } from "./utils";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 interface IQueue {
   letter: string;
@@ -58,7 +59,7 @@ export const QueuePage: React.FC = () => {
       setInputValue('')
       resetInput();
 
-    }, 500);
+    }, SHORT_DELAY_IN_MS);
   }
 
   const onValueDelete = () => {
@@ -72,7 +73,7 @@ export const QueuePage: React.FC = () => {
       setHeadIndex(queue.head);
       setTailIndex(queue.tail);
       setShowValue(render());
-    }, 500);
+    }, SHORT_DELAY_IN_MS);
   }
 
   const onValuesClear = () => {
@@ -93,6 +94,7 @@ export const QueuePage: React.FC = () => {
           />
           <Button onClick={onValueAdd}
             text='Добавить'
+            disabled={inputValue.length === 0}
           />
           <Button onClick={onValueDelete}
             text='Удалить'

@@ -6,6 +6,7 @@ import styles from "./stack-page.module.css";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { Stack } from "./utils";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 
 interface IStack {
@@ -36,7 +37,7 @@ export const StackPage: React.FC = () => {
       });
       setShowValue([...stack.elements]);
       setLoader(false);
-    }, 500);
+    }, SHORT_DELAY_IN_MS);
   }
 
   const onValueDelete = () => {
@@ -52,7 +53,7 @@ export const StackPage: React.FC = () => {
     setTimeout(() => {
       stack.pop();
       setShowValue([...stack.elements]);
-    }, 500);
+    }, SHORT_DELAY_IN_MS);
     setLoader(false);    
   }
 
@@ -92,7 +93,6 @@ export const StackPage: React.FC = () => {
             return (
               <Circle
                 letter={item.letter}
-                //index={index}
                 key={index}
                 state={item.state}
                 head={`${index === showValue.length - 1 ? 'top' : ''}`}
