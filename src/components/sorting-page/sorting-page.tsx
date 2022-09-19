@@ -1,4 +1,4 @@
-import React, { useCallback, useState, ChangeEvent, useEffect } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Button } from "../ui/button/button";
 import styles from "./sorting-page.module.css";
@@ -7,6 +7,7 @@ import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
 import { ElementStates } from "../../types/element-states";
 import { swap, delay} from "./utils";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 interface INumberProps {
   symbol: number,
@@ -21,7 +22,9 @@ export const SortingPage: React.FC = () => {
 
   const isRadioSelected = (value: string): boolean => selectedRadioBtn === value;
 
-  const changeValue = (event: ChangeEvent<HTMLInputElement>): void => setSelectedRadioBtn(event.currentTarget.value);
+  const changeValue = (event: ChangeEvent<HTMLInputElement>) => {
+    setSelectedRadioBtn(event.currentTarget.value);
+  };
 
   useEffect(() => {
     onArrayGenerate();
@@ -81,7 +84,7 @@ export const SortingPage: React.FC = () => {
         arr[i].state = ElementStates.Changing;
         arr[j].state = ElementStates.Changing;
         setShowArray([...arr]);
-        await delay(500);
+        await delay(SHORT_DELAY_IN_MS);
         if (selector === Direction.Ascending && arr[minInd].symbol > arr[j].symbol) {
           minInd = j;
         }
@@ -179,4 +182,4 @@ export const SortingPage: React.FC = () => {
       </section>
     </SolutionLayout>
   )
-}
+};

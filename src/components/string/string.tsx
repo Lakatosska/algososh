@@ -8,7 +8,7 @@ import { ElementStates } from "../../types/element-states";
 import { DELAY_IN_MS } from "../../constants/delays";
 
 interface ILetterProps {
-  symbol: string,
+  letter: string,
   state?: ElementStates
 }
 
@@ -17,6 +17,10 @@ export const StringComponent: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
   const [showValue, setShowValue] = useState<ILetterProps[]>([]);
   const [loader, setLoader] = useState<boolean>(false);
+
+  const onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(evt.target.value);
+  }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,7 +31,7 @@ export const StringComponent: React.FC = () => {
   const onButtonClick = useCallback(() => {
     const inputs = inputValue.split('').map(item=> {
       return {
-        symbol: item,
+        letter: item,
         state: ElementStates.Default
       }
     })
@@ -46,19 +50,19 @@ export const StringComponent: React.FC = () => {
         setShowValue([...arr]);
 
         setTimeout(() => {
-          let swapedSymbol = arr[start].symbol;
+          let swapedSymbol = arr[start].letter;
           arr[start] = {
-            symbol: arr[end].symbol,
+            letter: arr[end].letter,
             state: ElementStates.Modified,
           };
           arr[end] = {
-            symbol: swapedSymbol,
+            letter: swapedSymbol,
             state: ElementStates.Modified,
           }
           setShowValue([...arr]);
           setLoader(false);
+          setInputValue('')
         }, DELAY_IN_MS);
-
       }, DELAY_IN_MS * i);
     }
   }, [inputValue])
@@ -69,7 +73,8 @@ export const StringComponent: React.FC = () => {
         <Input 
           maxLength={11}
           isLimitText
-          onChange = {(e) => setInputValue(e.currentTarget.value)}
+          onChange={onChange}
+          value={inputValue}
         />
         <Button
           type='submit'
@@ -82,7 +87,7 @@ export const StringComponent: React.FC = () => {
         showValue.map((item, index) => {
           return (
             <Circle 
-              letter={item.symbol} 
+              letter={item.letter} 
               state={item.state} 
               key={index}
             />

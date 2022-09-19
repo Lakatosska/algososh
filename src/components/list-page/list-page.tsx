@@ -7,6 +7,7 @@ import { ArrowIcon } from "../ui/icons/arrow-icon";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { LinkedList } from "./utils";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 const linkedList = new LinkedList(
   new Array(6).fill('').map(item => (item + Math.floor(Math.random() * 100)).toString())
@@ -22,7 +23,14 @@ export const ListPage: React.FC = () => {
   const [bottomCircleIndex, setBottomCircleIndex] = useState(-1);
   const [modifiedIndex, setModifiedIndex] = useState(-1);
   const [changingIndexes, setChangingIndexes] = useState<number[]>([]);
-  
+
+  const onChangeValue = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(evt.target.value);
+  }
+
+  const onChangeIndex = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setIndex(evt.target.value);
+  }
 
   function addToHead() {
     if (!inputValue) return null;
@@ -39,8 +47,8 @@ export const ListPage: React.FC = () => {
 
       setTimeout(() => {
         setModifiedIndex(-1);
-      }, 500);
-    }, 500);
+      }, SHORT_DELAY_IN_MS);
+    }, SHORT_DELAY_IN_MS);
   }
 
   function addToTail() {
@@ -58,8 +66,8 @@ export const ListPage: React.FC = () => {
 
       setTimeout(() => {
         setModifiedIndex(-1);
-      }, 500);
-    }, 500);
+      }, SHORT_DELAY_IN_MS);
+    }, SHORT_DELAY_IN_MS);
   }
 
   function removeFromHead() {
@@ -82,7 +90,7 @@ export const ListPage: React.FC = () => {
       setShowList(linkedList.toString);
       setBottomCircleIndex(-1);
       setExtraCircleValue('');
-    }, 500);
+    }, SHORT_DELAY_IN_MS);
   }
 
   function removeFromTail() {
@@ -105,7 +113,7 @@ export const ListPage: React.FC = () => {
       setShowList(linkedList.toString);
       setBottomCircleIndex(-1);
       setExtraCircleValue('');
-    }, 500);
+    }, SHORT_DELAY_IN_MS);
   }
 
   function addByIndex() {
@@ -134,7 +142,7 @@ export const ListPage: React.FC = () => {
 
         setTimeout(() => {
           setModifiedIndex(-1);
-        }, 500);
+        }, SHORT_DELAY_IN_MS);
 
         clearInterval(interval);
         return;
@@ -144,7 +152,7 @@ export const ListPage: React.FC = () => {
       setChangingIndexes([...arr]);
       counter++;
       setTopCircleIndex(counter);
-    }, 500);
+    }, SHORT_DELAY_IN_MS);
   }
 
   function removeByIndex() {
@@ -179,17 +187,17 @@ export const ListPage: React.FC = () => {
           setBottomCircleIndex(-1);
           setExtraCircleValue('');
           setShowList(linkedList.toString);
-        }, 500);
+        }, SHORT_DELAY_IN_MS);
         return;
       }
 
       counter++;
       arr.push(counter);
       setChangingIndexes([...arr]);
-    }, 500);
+    }, SHORT_DELAY_IN_MS);
   }
 
-  function applyCircleState(index: number): ElementStates {
+  function showColor(index: number): ElementStates {
     if (index === modifiedIndex) return ElementStates.Modified;
     if (changingIndexes.includes(index)) return ElementStates.Changing;
     return ElementStates.Default;
@@ -208,9 +216,7 @@ export const ListPage: React.FC = () => {
               maxLength={4}
               isLimitText
               value={inputValue}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setInputValue(e.target.value)
-              }
+              onChange={onChangeValue}
             />
             <Button 
               text='Добавить в head'
@@ -239,9 +245,7 @@ export const ListPage: React.FC = () => {
               maxLength={1}
               placeholder='Введите индекс'
               value={index}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setIndex(e.target.value)
-              }
+              onChange={onChangeIndex}
             />
             <Button 
               text='Добавить по индексу'
@@ -275,7 +279,7 @@ export const ListPage: React.FC = () => {
                   letter={item}
                   tail={`${index === showList.length - 1 ? 'tail' : ''}`}
                   head={`${index === 0 ? 'head' : ''}`}
-                  state={applyCircleState(index)}
+                  state={showColor(index)}
                 />
                 {(index !== showList.length - 1) 
                     && <ArrowIcon />}
@@ -294,4 +298,4 @@ export const ListPage: React.FC = () => {
       </section>
     </SolutionLayout>
   )
-}
+};

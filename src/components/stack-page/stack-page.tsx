@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
@@ -18,24 +18,30 @@ const stack = new Stack<IStack>();
 
 export const StackPage: React.FC = () => {
 
+  const stackRef = useRef(stack);
+
   const [inputValue, setInputValue] = useState<string>('');
   const [showValue, setShowValue] = useState<IStack[]>([]);
   const [loader, setLoader] = useState<boolean>(false);
 
+  const onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(evt.target.value);
+  }
+
   const onValueAdd = () => {
-    if (!inputValue) return;
+    if (!inputValue) return null;
     setLoader(true);
 
-    stack.push({ letter: inputValue, state: ElementStates.Changing });
+    stackRef.current.push({ letter: inputValue, state: ElementStates.Changing });
     setInputValue('')
-    setShowValue([...stack.elements]);
+    setShowValue([...stackRef.current.elements]);
 
     setTimeout(() => {
-      stack.setByIndex(stack.size - 1, {
+      stackRef.current.setByIndex(stackRef.current.size - 1, {
         letter: inputValue,
         state: ElementStates.Default,
       });
-      setShowValue([...stack.elements]);
+      setShowValue([...stackRef.current.elements]);
       setLoader(false);
     }, SHORT_DELAY_IN_MS);
   }
@@ -43,23 +49,23 @@ export const StackPage: React.FC = () => {
   const onValueDelete = () => {
     setLoader(true);
 
-    stack.setByIndex(stack.size - 1, {
-      letter: stack.elements[stack.size - 1].letter,
+    stack.setByIndex(stackRef.current.size - 1, {
+      letter: stackRef.current.elements[stackRef.current.size - 1].letter,
       state: ElementStates.Changing,
     });
 
-    setShowValue([...stack.elements]);
+    setShowValue([...stackRef.current.elements]);
 
     setTimeout(() => {
-      stack.pop();
-      setShowValue([...stack.elements]);
+      stackRef.current.pop();
+      setShowValue([...stackRef.current.elements]);
     }, SHORT_DELAY_IN_MS);
     setLoader(false);    
   }
 
   const onValuesClear = () => {
-    stack.clear();
-    setShowValue([...stack.elements]);
+    stackRef.current.clear();
+    setShowValue([...stackRef.current.elements]);
   }
 
   return (
@@ -69,27 +75,30 @@ export const StackPage: React.FC = () => {
           <Input 
             maxLength={4}
             isLimitText
-            onChange={(e) => setInputValue(e.currentTarget.value)}
+            onChange={onChange}
             value={inputValue}
           />
-          <Button onClick={onValueAdd}
+          <Button 
+            onClick={onValueAdd}
             text='Добавить'
             disabled={loader}
           />
-          <Button onClick={onValueDelete}
+          <Button 
+            onClick={onValueDelete}
             text='Удалить'
             disabled={loader}
           />
         </div>
 
-        <Button onClick={onValuesClear}
+        <Button 
+          onClick={onValuesClear}
           text='Очистить'
         />
       </section>
 
       <section className={styles.circles}>
         {showValue.length > 0 &&
-          showValue.map((item: any, index: any) => {
+          showValue.map((item, index) => {
             return (
               <Circle
                 letter={item.letter}

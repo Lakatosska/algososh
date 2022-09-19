@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
@@ -8,120 +8,106 @@ import { ElementStates } from "../../types/element-states";
 import { Queue } from "./utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
+
 interface IQueue {
   letter: string;
   state: ElementStates;
 }
 
-const queue = new Queue<IQueue>();
+const queue = new Queue<IQueue>(7);
 
 export const QueuePage: React.FC = () => {
 
-  const [inputValue, setInputValue] = useState('')
-  const [showValue, setShowValue] = useState<IQueue[]>(Array(7).fill({letter: '', state: ElementStates.Default}))
-  const [headIndex, setHeadIndex] = useState(-1);
-  const [tailIndex, setTailIndex] = useState(-1);
+  const queueRef = useRef(queue);
 
-  const render = () => {
-    return (
-      showValue.map((_, index) => {
-        if (queue.elements[index - queue.startPosition]) {
-          return queue.elements[index - queue.startPosition]
-        }
-        return {letter: '', state: ElementStates.Default}
-      })
-    )
-  }
+  const [inputValue, setInputValue] = useState<string>('');
+  const [showValue, setShowValue] = useState(queueRef.current.elements());
+  const [color, setColor] = useState<ElementStates>();  
+  const [ind, setInd] = useState<number>();
+  const [loader, setLoader] = useState<boolean>(false);
 
-  const resetInput = () => {
-    setInputValue('');
-  }
+  const head = queueRef.current.getHead();
+  const tail = queueRef.current.getTail();
+
+  const onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(evt.target.value);
+  };
 
   const onValueAdd = () => {
-    if (
-      tailIndex === showValue.length - 1 ||
-      headIndex === showValue.length - 1 ||
-      !inputValue
-    ) return null;
+    if (!inputValue) return;
+    setLoader(true);
 
-    queue.enqueue({ letter: inputValue, state: ElementStates.Changing });
-    setInputValue('')
-    setShowValue(render())
+    queueRef.current.enqueue({ letter: inputValue, state: ElementStates.Default });
+    setInd(tail + 1);
+    setColor(ElementStates.Changing);
+    setShowValue(queueRef.current.elements());
 
     setTimeout(() => {
-      setHeadIndex(queue.head);
-      setTailIndex(queue.tail);
-      queue.setByIndex(queue.size - 1, {
-        letter: inputValue,
-        state: ElementStates.Default,
-      });
-      setShowValue(render());
-      setInputValue('')
-      resetInput();
-
-    }, SHORT_DELAY_IN_MS);
-  }
+      setInputValue('');
+      setColor(ElementStates.Default);
+      setLoader(false);
+    }, SHORT_DELAY_IN_MS); 
+  };
 
   const onValueDelete = () => {
-    if (tailIndex === -1) return null;
-    queue.dequeue();
-
-    showValue[headIndex].state = ElementStates.Changing; 
-    setShowValue([...showValue]);
+    setLoader(true);
+    setInd(head);
+    setColor(ElementStates.Changing);
 
     setTimeout(() => {
-      setHeadIndex(queue.head);
-      setTailIndex(queue.tail);
-      setShowValue(render());
+      queueRef.current.dequeue();
+      setColor(ElementStates.Default);
+      setShowValue(queueRef.current.elements());
+      setLoader(false);  
     }, SHORT_DELAY_IN_MS);
-  }
+  };
 
-  const onValuesClear = () => {
-    queue.clear();
-    setShowValue(render());
-    setHeadIndex(queue.head);
-    setTailIndex(queue.tail);
-  }
+  const onValuesClear = async () => {
+    queueRef.current.clear();
+    setShowValue(queueRef.current.elements());
+  };
 
   return (
-    <SolutionLayout title="Очередь">
+    <SolutionLayout title='Очередь'>
       <section className={styles.form}>
         <div className={styles.input}>
-          <Input 
+          <Input
             maxLength={4}
-            isLimitText
-            onChange={(e) => setInputValue(e.currentTarget.value)}
+            isLimitText={true}
+            onChange={onChange}
+            value={inputValue}
           />
-          <Button onClick={onValueAdd}
+          <Button
+            onClick={onValueAdd}
             text='Добавить'
-            disabled={inputValue.length === 0}
+            type='submit'
+            disabled={loader}
           />
-          <Button onClick={onValueDelete}
+          <Button 
             text='Удалить'
+            onClick={onValueDelete}
+            disabled={loader}
           />
         </div>
-
-        <Button onClick={onValuesClear}
+        <Button 
           text='Очистить'
+          onClick={onValuesClear}
         />
       </section>
-
       <section className={styles.circles}>
-        {showValue.length > 0 &&
-          showValue.map((item, index) => {
-            return (
-              <Circle
-                letter={item.letter}
-                index={index}
-                key={index}
-                state={item.state}
-                head={`${index === headIndex ? 'head' : ''}`}
-                tail={`${index === tailIndex ? 'tail' : ''}`}
-              />
-            )
-          })
-        } 
+        {showValue?.map((item, index) => {
+          return (
+            <Circle
+              key={index}
+              letter={item?.letter ? item.letter : ''}
+              state={index === ind ? color : item?.state}
+              index={index}
+              head={item?.letter && index === head ? 'head' : ''}
+              tail={item?.letter && index === tail ? 'tail' : ''}
+            />
+          )
+        })}
       </section>
     </SolutionLayout>
   );
-}
+};

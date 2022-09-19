@@ -1,59 +1,46 @@
 export class Queue<T> {
-  _elements: T[] = [];
-  startPosition = 0;
-  headIndex = -1;
-  tailIndex = -1;
+  _elements: (T | null)[] = [];
+  head: number = 0;
+  tail: number = 0;
+  size: number = 0;
+  length: number = 0;
 
-  get elements() {
+  constructor(size: number) {
+    this.size = size;
+    this._elements = Array(size).fill(null);
+  }
+
+  elements() {
     return this._elements;
   }
 
-  get isEmpty() {
-    return this._elements.length === 0;
+  enqueue = (item: T) => {
+    this._elements[this.tail] = item;
+    this.length++;
+    this.tail === this.size - 1 ? (this.tail = 0) : this.tail++;
+  };
+
+  dequeue = () => {
+    this._elements[this.head] = null;
+    this.head++;
+    this.length--;
+  };
+
+  clear = () => {
+    this._elements = Array(this.size).fill(null);
+    this.head = 0;
+    this.tail = 0;
+  };
+
+  isEmpty() {
+    return this.length === 0;
   }
 
-  get head() {
-    return this.headIndex;
+  getHead() {
+    return this.head;
   }
 
-  get tail() {
-    return this.tailIndex;
-  }
-
-  enqueue(item: T): void {
-    this._elements.push(item);
-    if (this.headIndex === -1) {
-      this.headIndex = 0;
-    }
-    if (this.headIndex > this.tailIndex) {
-      this.tailIndex = this.headIndex;
-    } else {
-      this.tailIndex++;
-    }
-  }
-
-  dequeue(): void {
-    this.elements.splice(this.headIndex, 1, {} as T);
-    if (this.isEmpty && this.headIndex !== -1) {
-      this.tailIndex = -1;
-    } else {
-      this.headIndex++;
-    }
-  }
-
-  clear(): void {
-    this._elements = [];
-    //this.startPosition = 0;
-    this.headIndex = -1;
-    this.tailIndex = -1;
-
-  }
-
-  setByIndex(index: number, item: T) {
-    this._elements[index] = item;
-  }
-
-  get size() {
-    return this.elements.length;
+  getTail() { 
+    return this.tail - 1;
   }
 }
