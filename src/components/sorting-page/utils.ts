@@ -5,10 +5,6 @@ interface ILetterProps {
   state?: ElementStates
 }
 
-export const delay = (
-  time: number
-) => new Promise(resolve => setTimeout(resolve, time));
-
 export const swap = (
   arr: ILetterProps[], 
   firstIndex: number, 

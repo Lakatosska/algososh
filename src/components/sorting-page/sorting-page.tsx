@@ -6,7 +6,8 @@ import { RadioInput } from "../ui/radio-input/radio-input";
 import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
 import { ElementStates } from "../../types/element-states";
-import { swap, delay} from "./utils";
+import { swap } from "./utils";
+import { delay } from "../../utils/functions";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 interface INumberProps {
@@ -19,6 +20,7 @@ export const SortingPage: React.FC = () => {
   const [showArray, setShowArray] = useState<INumberProps[]>([]);
   const [selectedRadioBtn, setSelectedRadioBtn] = useState<string>('radioSelect');
   const [loader, setLoader] = useState<boolean>(false);
+  const [direction, setDirection] = useState('');
 
   const isRadioSelected = (value: string): boolean => selectedRadioBtn === value;
 
@@ -69,6 +71,7 @@ export const SortingPage: React.FC = () => {
     }
     setShowArray([...arr]);
     setLoader(false);
+    setDirection('');
   }
 
   const selectionSort = async (arr: INumberProps[], selector: Direction) => {
@@ -101,31 +104,38 @@ export const SortingPage: React.FC = () => {
     arr[arr.length - 1].state = ElementStates.Modified;
     setShowArray([...arr]);
     setLoader(false);
+    setDirection('');
   }
 
   const onClickBubbleSortAsc = () => {
-    bubbleSort(showArray, Direction.Ascending)
+    setDirection(Direction.Ascending);
+    bubbleSort(showArray, Direction.Ascending);
   }
 
   const onClickBubbleSortDesc = () => {
-    bubbleSort(showArray, Direction.Descending)
+    setDirection(Direction.Descending);
+    bubbleSort(showArray, Direction.Descending);
   }
 
   const onClickSelectionSortAsc = () => {
-    selectionSort(showArray, Direction.Ascending)
+    setDirection(Direction.Ascending);
+    selectionSort(showArray, Direction.Ascending);
   }
 
   const onClickSelectionSortDesc = () => {
-    selectionSort(showArray, Direction.Descending)
+    setDirection(Direction.Descending);
+    selectionSort(showArray, Direction.Descending);
   }
   
   // 2 в 1 по возрастанию
   const onClickSortAsc = () => {
+    //setDirection(Direction.Ascending)
     isRadioSelected('radioBubble') ? onClickBubbleSortAsc() : onClickSelectionSortAsc()
   }
 
   // 2 в 1 по убыванию
   const onClickSortDesc = () => {
+    //setDirection(Direction.Descending)
     isRadioSelected('radioBubble') ? onClickBubbleSortDesc() : onClickSelectionSortDesc()
   }
   
@@ -151,13 +161,17 @@ export const SortingPage: React.FC = () => {
             onClick={onClickSortAsc}
             text='По возрастанию'
             sorting={Direction.Ascending}
-            disabled={loader}           
+            disabled={loader}
+            isLoader={direction === Direction.Ascending}
+            extraClass={styles.buttonWidth}           
           />
           <Button 
             onClick={onClickSortDesc}
             text='По убыванию'
             sorting={Direction.Descending}
-            disabled={loader}            
+            disabled={loader}
+            isLoader={direction === Direction.Descending}  
+            extraClass={styles.buttonWidth}             
           />
         </div>
         <Button 

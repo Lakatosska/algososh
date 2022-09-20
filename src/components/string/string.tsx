@@ -6,6 +6,7 @@ import styles from "./string.module.css";
 import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { DELAY_IN_MS } from "../../constants/delays";
+import { delay } from "../../utils/functions";
 
 interface ILetterProps {
   letter: string,
@@ -28,7 +29,7 @@ export const StringComponent: React.FC = () => {
     onButtonClick();
   };
 
-  const onButtonClick = useCallback(() => {
+  const onButtonClick = useCallback(async() => {
     const inputs = inputValue.split('').map(item=> {
       return {
         letter: item,
@@ -39,7 +40,7 @@ export const StringComponent: React.FC = () => {
     setShowValue(inputs)
 
     let arr = [...inputs]
-
+    
     for(let i = 0; i < arr.length/2; i++) {
       setTimeout(() => {
 
@@ -60,11 +61,12 @@ export const StringComponent: React.FC = () => {
             state: ElementStates.Modified,
           }
           setShowValue([...arr]);
-          setLoader(false);
-          setInputValue('')
+          setInputValue('');
         }, DELAY_IN_MS);
       }, DELAY_IN_MS * i);
     }
+    await delay(DELAY_IN_MS * arr.length/2);
+    setLoader(false);
   }, [inputValue])
 
   return (

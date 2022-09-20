@@ -26,3 +26,7 @@
   align-items: flex-end;
   min-height: 348px;  
 }
+
+.buttonWidth {
+  width: 205px;
+}
