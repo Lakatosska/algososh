@@ -80,6 +80,7 @@ export const StringComponent: React.FC = () => {
           type='submit'
           text='Развернуть'
           isLoader={loader}
+          disabled={inputValue.length < 2}
         />
       </form>
       <div className={styles.circles}>

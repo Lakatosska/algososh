@@ -22,7 +22,8 @@ export const StackPage: React.FC = () => {
 
   const [inputValue, setInputValue] = useState<string>('');
   const [showValue, setShowValue] = useState<IStack[]>([]);
-  const [loader, setLoader] = useState<boolean>(false);
+  const [loaderAdd, setLoaderAdd] = useState<boolean>(false);
+  const [loaderRemove, setLoaderRemove] = useState<boolean>(false);
 
   const onChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(evt.target.value);
@@ -30,7 +31,7 @@ export const StackPage: React.FC = () => {
 
   const onValueAdd = () => {
     if (!inputValue) return null;
-    setLoader(true);
+    setLoaderAdd(true);
 
     stackRef.current.push({ letter: inputValue, state: ElementStates.Changing });
     setInputValue('')
@@ -42,12 +43,12 @@ export const StackPage: React.FC = () => {
         state: ElementStates.Default,
       });
       setShowValue([...stackRef.current.elements]);
-      setLoader(false);
+      setLoaderAdd(false);
     }, SHORT_DELAY_IN_MS);
   }
 
   const onValueDelete = () => {
-    setLoader(true);
+    setLoaderRemove(true);
 
     stack.setByIndex(stackRef.current.size - 1, {
       letter: stackRef.current.elements[stackRef.current.size - 1].letter,
@@ -59,8 +60,8 @@ export const StackPage: React.FC = () => {
     setTimeout(() => {
       stackRef.current.pop();
       setShowValue([...stackRef.current.elements]);
+      setLoaderRemove(false); 
     }, SHORT_DELAY_IN_MS);
-    setLoader(false);    
   }
 
   const onValuesClear = () => {
@@ -81,18 +82,21 @@ export const StackPage: React.FC = () => {
           <Button 
             onClick={onValueAdd}
             text='Добавить'
-            disabled={loader}
+            disabled={!inputValue}
+            isLoader={loaderAdd}
           />
           <Button 
             onClick={onValueDelete}
             text='Удалить'
-            disabled={loader}
+            disabled={!showValue.length}
+            isLoader={loaderRemove}
           />
         </div>
 
         <Button 
           onClick={onValuesClear}
           text='Очистить'
+          disabled={!showValue.length}
         />
       </section>
 

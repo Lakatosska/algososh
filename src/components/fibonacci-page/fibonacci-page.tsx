@@ -55,11 +55,13 @@ export const FibonacciPage: React.FC = () => {
           max={19}
           type=''
           onChange={onChange}
+          value={inputValue}
         />
         <Button 
           type='submit'
           text='Рассчитать'
           isLoader={loader}
+          disabled={!inputValue || Number(inputValue) < 0 || Number(inputValue) > 19 }
         />
       </form>
       <div className={styles.circles}>

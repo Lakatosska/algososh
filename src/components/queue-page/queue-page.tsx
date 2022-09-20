@@ -24,7 +24,8 @@ export const QueuePage: React.FC = () => {
   const [showValue, setShowValue] = useState(queueRef.current.elements());
   const [color, setColor] = useState<ElementStates>();  
   const [ind, setInd] = useState<number>();
-  const [loader, setLoader] = useState<boolean>(false);
+  const [loaderAdd, setLoaderAdd] = useState<boolean>(false);
+  const [loaderRemove, setLoaderRemove] = useState<boolean>(false);
 
   const head = queueRef.current.getHead();
   const tail = queueRef.current.getTail();
@@ -35,7 +36,7 @@ export const QueuePage: React.FC = () => {
 
   const onValueAdd = () => {
     if (!inputValue) return;
-    setLoader(true);
+    setLoaderAdd(true);
 
     queueRef.current.enqueue({ letter: inputValue, state: ElementStates.Default });
     setInd(tail + 1);
@@ -45,12 +46,12 @@ export const QueuePage: React.FC = () => {
     setTimeout(() => {
       setInputValue('');
       setColor(ElementStates.Default);
-      setLoader(false);
+      setLoaderAdd(false);
     }, SHORT_DELAY_IN_MS); 
   };
 
   const onValueDelete = () => {
-    setLoader(true);
+    setLoaderRemove(true);
     setInd(head);
     setColor(ElementStates.Changing);
 
@@ -58,7 +59,7 @@ export const QueuePage: React.FC = () => {
       queueRef.current.dequeue();
       setColor(ElementStates.Default);
       setShowValue(queueRef.current.elements());
-      setLoader(false);  
+      setLoaderRemove(false);  
     }, SHORT_DELAY_IN_MS);
   };
 
@@ -81,17 +82,20 @@ export const QueuePage: React.FC = () => {
             onClick={onValueAdd}
             text='Добавить'
             type='submit'
-            disabled={loader}
+            disabled={!inputValue.length}
+            isLoader={loaderAdd}
           />
           <Button 
             text='Удалить'
             onClick={onValueDelete}
-            disabled={loader}
+            disabled={queue.isEmpty()}
+            isLoader={loaderRemove}
           />
         </div>
         <Button 
           text='Очистить'
           onClick={onValuesClear}
+          disabled={queue.isEmpty()}
         />
       </section>
       <section className={styles.circles}>
