@@ -16,8 +16,8 @@ export const FibonacciPage: React.FC = () => {
     setInputValue(evt.target.value);
   }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
     setLoader(true);
     onButtonClick();
   };
@@ -49,7 +49,7 @@ export const FibonacciPage: React.FC = () => {
 
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
-      <form className={styles.main} onSubmit={(e) => handleSubmit(e)}>
+      <form className={styles.main} onSubmit={(evt) => handleSubmit(evt)}>
         <Input 
           isLimitText
           max={19}

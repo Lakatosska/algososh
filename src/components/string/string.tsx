@@ -23,8 +23,8 @@ export const StringComponent: React.FC = () => {
     setInputValue(evt.target.value);
   }
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
     setLoader(true);
     onButtonClick();
   };
@@ -71,7 +71,7 @@ export const StringComponent: React.FC = () => {
 
   return (
     <SolutionLayout title="Строка">
-      <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
+      <form className={styles.form} onSubmit={(evt) => handleSubmit(evt)}>
         <Input 
           maxLength={11}
           isLimitText

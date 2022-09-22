@@ -8,6 +8,7 @@ import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { LinkedList } from "./utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { LIST_INIT_LENGTH } from "../../constants/length";
 
 type TLinkedListLoaderState = {
   addToHead: boolean;
@@ -19,7 +20,7 @@ type TLinkedListLoaderState = {
 };
 
 const linkedList = new LinkedList(
-  new Array(6).fill('').map(item => (item + Math.floor(Math.random() * 100)).toString())
+  new Array(LIST_INIT_LENGTH).fill('').map(item => (item + Math.floor(Math.random() * 100)).toString())
 );
 
 export const ListPage: React.FC = () => {
@@ -147,24 +148,24 @@ export const ListPage: React.FC = () => {
     if (
       !index ||
       !inputValue ||
-      parseInt(index) < 0 ||
-      parseInt(index) >= showList.length
+      Number(index) < 0 ||
+      Number(index) >= showList.length
     ) {
       return null;
     }
 
-    linkedList.addByIndex(inputValue, parseInt(index));
+    linkedList.addByIndex(inputValue, Number(index));
     let counter = 0;
     setTopCircleIndex(0);
     setExtraCircleValue(inputValue);
     const arr: number[] = [];
     const interval = setInterval(() => {
-      if (counter === parseInt(index)) {
+      if (counter === Number(index)) {
         setTopCircleIndex(-1);
         setExtraCircleValue('');
 
         setChangingIndexes([]);
-        setModifiedIndex(parseInt(index));
+        setModifiedIndex(Number(index));
         setShowList(linkedList.toString);
 
         setTimeout(() => {
@@ -187,22 +188,22 @@ export const ListPage: React.FC = () => {
   function removeByIndex() {
     setLoaderState({ ...loaderState, removeByIndex: true });
 
-    if (!index || parseInt(index) < 0 || parseInt(index) >= showList.length) return null;
+    if (!index || Number(index) < 0 || Number(index) >= showList.length) return null;
 
-    linkedList.deleteByIndex(parseInt(index));
+    linkedList.deleteByIndex(Number(index));
     const arr = [0];
     let counter = 0;
     setChangingIndexes([...arr]);
 
     const interval = setInterval(() => {
-      if (counter === parseInt(index)) {
-        setBottomCircleIndex(parseInt(index));
-        setExtraCircleValue(showList[parseInt(index)] as string);
+      if (counter === Number(index)) {
+        setBottomCircleIndex(Number(index));
+        setExtraCircleValue(showList[Number(index)] as string);
         arr.pop();
         setChangingIndexes([...arr]);
         setShowList(
           showList.map((item, i) => {
-            if (i === parseInt(index)) {
+            if (i === Number(index)) {
               item = '';
               return item;
             } else {

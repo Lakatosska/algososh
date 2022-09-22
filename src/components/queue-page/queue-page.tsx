@@ -7,6 +7,7 @@ import { Circle } from "../ui/circle/circle";
 import { ElementStates } from "../../types/element-states";
 import { Queue } from "./utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { QUEUE_INIT_LENGTH } from "../../constants/length";
 
 
 interface IQueue {
@@ -14,7 +15,7 @@ interface IQueue {
   state: ElementStates;
 }
 
-const queue = new Queue<IQueue>(7);
+const queue = new Queue<IQueue>(QUEUE_INIT_LENGTH);
 
 export const QueuePage: React.FC = () => {
 

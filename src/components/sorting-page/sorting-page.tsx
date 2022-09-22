@@ -24,8 +24,8 @@ export const SortingPage: React.FC = () => {
 
   const isRadioSelected = (value: string): boolean => selectedRadioBtn === value;
 
-  const changeValue = (event: ChangeEvent<HTMLInputElement>) => {
-    setSelectedRadioBtn(event.currentTarget.value);
+  const changeValue = (evt: ChangeEvent<HTMLInputElement>) => {
+    setSelectedRadioBtn(evt.currentTarget.value);
   };
 
   useEffect(() => {
