@@ -1,0 +1,25 @@
+.form {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 377px 133px;
+  gap: 12px;
+  justify-content: center;
+}
+
+.circles {
+  justify-content: center;
+  margin: 120px auto 0;
+  display: flex;
+  gap: 16px;
+  
+}
+
+/*
+.circles {
+  justify-content: center;
+  margin: 120px auto 0;
+  display: grid;
+  width: 1040px;
+  grid-template-columns: repeat(11, 1fr);
+}
+*/

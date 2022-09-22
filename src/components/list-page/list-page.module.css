@@ -1,0 +1,56 @@
+.form {
+  margin: 0 auto;
+  width: 952px;
+}
+
+.value {
+  display: grid;
+  grid-template-columns: 204px repeat(4, 175px);
+  column-gap: 12px;
+  margin-bottom: 9px;
+}
+
+.index {
+  display: grid;
+  grid-template-columns: 204px repeat(2, 362px);
+  column-gap: 12px;
+}
+
+.circles {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 35px;
+  height: 250px;
+  gap: 32px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 102px;
+  height: 250px;
+  position: relative;
+}
+
+.circleAndArrow {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  gap: 16px;
+}
+
+.topSmallCircle {
+  position: absolute;
+  top: 0;
+  margin-left: 11px;
+}
+
+.bottomSmallCircle {
+  position: absolute;
+  bottom: -30px;
+  margin-left: 11px;
+}
