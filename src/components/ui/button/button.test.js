@@ -5,22 +5,30 @@ import { Button } from './button';
 describe('Тестирование компонента Button', () => {
 
   it('Кнопка с текстом', () => {
-    const button = renderer.create(<Button text='text' />).toJSON();
+    const button = renderer
+      .create(<Button text='text' />)
+      .toJSON();
     expect(button).toMatchSnapshot();
   });
 
   it('Кнопка без текста', () => {
-    const button = renderer.create(<Button />).toJSON();
+    const button = renderer
+      .create(<Button />)
+      .toJSON();
     expect(button).toMatchSnapshot();
   });
 
   it('Заблокированная кнопка', () => {
-    const button = renderer.create(<Button disabled={true} />).toJSON();
+    const button = renderer
+      .create(<Button disabled={true} />)
+      .toJSON();
     expect(button).toMatchSnapshot();
   });
 
   it('Кнопка с индикацией загрузки', () => {
-    const button = renderer.create(<Button isLoader={true} />).toJSON();
+    const button = renderer
+      .create(<Button isLoader={true} />)
+      .toJSON();
     expect(button).toMatchSnapshot();
   });
 
