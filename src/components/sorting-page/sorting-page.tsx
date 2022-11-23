@@ -6,7 +6,7 @@ import { RadioInput } from "../ui/radio-input/radio-input";
 import { Direction } from "../../types/direction";
 import { Column } from "../ui/column/column";
 import { ElementStates } from "../../types/element-states";
-import { swap } from "./utils";
+import { swap, randomArray } from "./utils";
 import { delay } from "../../utils/functions";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
@@ -34,20 +34,13 @@ export const SortingPage: React.FC = () => {
 
   //генерация случайного массива
   const onArrayGenerate = () => {
-    const getRandomArbitrary = (min: number, max: number) => {
-      return Math.floor(Math.random() * (max - min) + min);
-    }
-
-    const n = getRandomArbitrary(3, 18)
-    const randomArr = Array(n).fill(null).map(() => Math.floor(Math.random() * 100))
-    
-    const arr = randomArr.map(symbol => ({symbol, state: ElementStates.Default}))
-
-    setShowArray(arr)
+    setShowArray(randomArray())
   }
 
   const bubbleSort = async (arr: INumberProps[], selector: Direction) => {
     setLoader(true);
+
+    //bubbleSortingAlgo(arr, selector, setShowArray);
     
     if (arr[0].state !== ElementStates.Default) {
       arr.forEach(item => item.state = ElementStates.Default);
@@ -76,6 +69,8 @@ export const SortingPage: React.FC = () => {
 
   const selectionSort = async (arr: INumberProps[], selector: Direction) => {
     setLoader(true);
+
+    //selectionSortingAlgo(arr, selector, setShowArray);
     
     if (arr[0].state !== ElementStates.Default) {
       arr.forEach(item => item.state = ElementStates.Default);

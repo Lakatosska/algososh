@@ -4,6 +4,8 @@
 // •	с одним символом.
 // •	пустую строку.
 
+
+
 import { BrowserRouter as Router } from "react-router-dom";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { StringComponent } from "./string";
@@ -51,3 +53,4 @@ describe('String reverses correctly', () => {
     stringReverseTest('', '');
   });
 });
+
