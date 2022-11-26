@@ -11,20 +11,20 @@ import { DELAY_IN_MS } from '../../src/constants/delays';
 
 describe ('String page works correct', () => {
   beforeEach(() => {
-    cy.visit('/recursion');
+    cy.visit('/recursion')
   })
 
   it('if input is empty, action button is disabled', () => {
-    cy.get('input').clear();
-    cy.get('button[type="submit"]').should('be.disabled');
+    cy.get('input').clear()
+    cy.get('button[type="submit"]').should('be.disabled')
   })
 
   it('recursion works correct including styles ', () => {
-    cy.get('input').type('fox').should('have.value', 'fox');
-    cy.get('button').contains('Развернуть').click();
+    cy.get('input').type('fox').should('have.value', 'fox')
+    cy.get('button').contains('Развернуть').click()
 
-    cy.clock();
-    
+    cy.clock()
+
     cy.get('[data-testid="circle"]')
       .eq(0)
       .should("have.css", "border-color", "rgb(210, 82, 225)")
