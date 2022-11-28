@@ -25,10 +25,17 @@ describe('Queue page works correct', () => {
     cy.clock()
 
     cy.get('[data-testid="circle"]')
+      .eq(0)
       .should("have.css", "border-color", "rgb(210, 82, 225)")
       .contains('11')
+    cy.get('[data-testid="circle_container"]')
+      .eq(0).contains('head')
+    cy.get('[data-testid="circle_container"]')
+      .eq(0).contains('tail')
+
 
     cy.tick(SHORT_DELAY_IN_MS);
+
     cy.get('[data-testid="circle"]')
       .should("have.css", "border-color", "rgb(0, 50, 255)")
       .contains('11')
@@ -40,11 +47,15 @@ describe('Queue page works correct', () => {
       .eq(0)
       .should("have.css", "border-color", "rgb(0, 50, 255)")
       .contains('11')
+    cy.get('[data-testid="circle_container"]')
+      .eq(0).contains('head')
 
     cy.get('[data-testid="circle"]')
       .eq(1)
       .should("have.css", "border-color", "rgb(210, 82, 225)")
       .contains('22')
+    cy.get('[data-testid="circle_container"]')
+      .eq(1).contains('tail')
 
     cy.tick(SHORT_DELAY_IN_MS)
 
@@ -57,9 +68,6 @@ describe('Queue page works correct', () => {
       .eq(1)
       .should("have.css", "border-color", "rgb(0, 50, 255)")
       .contains('22')
-
-    // добавить проверку курсоров head и tail
-
   })
 
   it('Values are removing from the queue correctly', () => {
