@@ -1,5 +1,3 @@
-//перед тем как проверять роутинг надо открыть само приложение
-
 describe('Routing works correct', () => {
   beforeEach(() => {
     cy.visit('/')
