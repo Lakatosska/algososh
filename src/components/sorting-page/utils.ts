@@ -1,8 +1,6 @@
-import { Dispatch, SetStateAction } from "react";
 import { ElementStates } from "../../types/element-states";
 import { Direction } from "../../types/direction";
-import { delay } from "../../utils/functions";
-import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+
 
 interface ILetterProps {
   symbol: string | number,
@@ -35,5 +33,57 @@ export const randomArray = () => {
   const arr = randomArr.map(symbol => ({symbol, state: ElementStates.Default}))
 
   return arr;
-}
+};
 
+export function* bubbleSortGenerator(
+  arr: INumberProps[], 
+  selector: Direction
+): Generator<INumberProps[]> {
+
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = 0; j < arr.length - i - 1; j++) {
+      arr[j].state = ElementStates.Changing;
+      arr[j + 1].state = ElementStates.Changing;
+      yield [...arr];
+      if (
+        (selector === Direction.Ascending && arr[j].symbol > arr[j + 1].symbol) || 
+        (selector === Direction.Descending && arr[j].symbol < arr[j + 1].symbol)
+      ) {
+        swap(arr, j, j + 1);
+      }
+      arr[j].state = ElementStates.Default;
+    }
+    arr[arr.length - i - 1].state = ElementStates.Modified;
+  }
+  yield [...arr];
+};
+
+export function* selectionSortGenerator(
+  arr: INumberProps[], 
+  selector: Direction
+): Generator<INumberProps[]> {
+  if (arr.length < 1) return [];
+
+  for (let i = 0; i < arr.length - 1; i++) {
+    let maxInd = i;
+    let minInd = i;
+    for (let j = i + 1; j < arr.length; j++) {
+      arr[i].state = ElementStates.Changing;
+      arr[j].state = ElementStates.Changing;
+      yield [...arr];
+      if (selector === Direction.Ascending && arr[minInd].symbol > arr[j].symbol) {
+        minInd = j;
+      }
+      if (selector === Direction.Descending && arr[maxInd].symbol < arr[j].symbol) {
+        maxInd = j;
+      }
+      arr[j].state = ElementStates.Default;
+      yield [...arr];
+    }
+    selector === Direction.Ascending && swap(arr, i, minInd);
+    selector === Direction.Descending && swap(arr, i, maxInd);
+    arr[i].state = ElementStates.Modified;
+  }
+  arr[arr.length - 1].state = ElementStates.Modified;
+  yield [...arr];
+};
