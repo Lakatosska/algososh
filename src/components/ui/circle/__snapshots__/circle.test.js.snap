@@ -3,15 +3,18 @@
 exports[`Тестирование компонента Circle Без буквы 1`] = `
 <div
   className="content "
+  data-testid="circle_container"
 >
   <div
     className="text text_type_input text_color_input mb-4 absolute head element"
   />
   <div
     className="circle   default"
+    data-testid="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
     />
   </div>
   <p
@@ -26,15 +29,18 @@ exports[`Тестирование компонента Circle Без буквы 
 exports[`Тестирование компонента Circle В состоянии changing 1`] = `
 <div
   className="content "
+  data-testid="circle_container"
 >
   <div
     className="text text_type_input text_color_input mb-4 absolute head element"
   />
   <div
     className="circle   changing"
+    data-testid="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
     />
   </div>
   <p
@@ -49,15 +55,18 @@ exports[`Тестирование компонента Circle В состоян�
 exports[`Тестирование компонента Circle В состоянии default 1`] = `
 <div
   className="content "
+  data-testid="circle_container"
 >
   <div
     className="text text_type_input text_color_input mb-4 absolute head element"
   />
   <div
     className="circle   default"
+    data-testid="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
     />
   </div>
   <p
@@ -72,15 +81,18 @@ exports[`Тестирование компонента Circle В состоян�
 exports[`Тестирование компонента Circle В состоянии modified 1`] = `
 <div
   className="content "
+  data-testid="circle_container"
 >
   <div
     className="text text_type_input text_color_input mb-4 absolute head element"
   />
   <div
     className="circle   modified"
+    data-testid="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
     />
   </div>
   <p
@@ -95,6 +107,7 @@ exports[`Тестирование компонента Circle В состоян�
 exports[`Тестирование компонента Circle С head 1`] = `
 <div
   className="content "
+  data-testid="circle_container"
 >
   <div
     className="text text_type_input text_color_input mb-4 absolute head string"
@@ -103,9 +116,11 @@ exports[`Тестирование компонента Circle С head 1`] = `
   </div>
   <div
     className="circle   default"
+    data-testid="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
     />
   </div>
   <p
@@ -120,15 +135,18 @@ exports[`Тестирование компонента Circle С head 1`] = `
 exports[`Тестирование компонента Circle С index 1`] = `
 <div
   className="content "
+  data-testid="circle_container"
 >
   <div
     className="text text_type_input text_color_input mb-4 absolute head element"
   />
   <div
     className="circle   default"
+    data-testid="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
     />
   </div>
   <p
@@ -145,21 +163,25 @@ exports[`Тестирование компонента Circle С index 1`] = `
 exports[`Тестирование компонента Circle С react-элементом в head 1`] = `
 <div
   className="content "
+  data-testid="circle_container"
 >
   <div
     className="text text_type_input text_color_input mb-4 absolute head element"
   >
     <div
       className="content "
+      data-testid="circle_container"
     >
       <div
         className="text text_type_input text_color_input mb-4 absolute head element"
       />
       <div
         className="circle   default"
+        data-testid="circle"
       >
         <p
           className="text text_type_circle text_color_input letter"
+          data-testid="circle_value"
         />
       </div>
       <p
@@ -172,9 +194,11 @@ exports[`Тестирование компонента Circle С react-элем�
   </div>
   <div
     className="circle   default"
+    data-testid="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
     />
   </div>
   <p
@@ -189,15 +213,18 @@ exports[`Тестирование компонента Circle С react-элем�
 exports[`Тестирование компонента Circle С react-элементом в tail 1`] = `
 <div
   className="content "
+  data-testid="circle_container"
 >
   <div
     className="text text_type_input text_color_input mb-4 absolute head element"
   />
   <div
     className="circle   default"
+    data-testid="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
     />
   </div>
   <p
@@ -208,15 +235,18 @@ exports[`Тестирование компонента Circle С react-элем�
   >
     <div
       className="content "
+      data-testid="circle_container"
     >
       <div
         className="text text_type_input text_color_input mb-4 absolute head element"
       />
       <div
         className="circle   default"
+        data-testid="circle"
       >
         <p
           className="text text_type_circle text_color_input letter"
+          data-testid="circle_value"
         />
       </div>
       <p
@@ -233,15 +263,18 @@ exports[`Тестирование компонента Circle С react-элем�
 exports[`Тестирование компонента Circle С tail 1`] = `
 <div
   className="content "
+  data-testid="circle_container"
 >
   <div
     className="text text_type_input text_color_input mb-4 absolute head element"
   />
   <div
     className="circle   default"
+    data-testid="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
     />
   </div>
   <p
@@ -258,15 +291,18 @@ exports[`Тестирование компонента Circle С tail 1`] = `
 exports[`Тестирование компонента Circle С буквами 1`] = `
 <div
   className="content "
+  data-testid="circle_container"
 >
   <div
     className="text text_type_input text_color_input mb-4 absolute head element"
   />
   <div
     className="circle   default"
+    data-testid="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
     >
       abcd
     </p>
@@ -283,15 +319,18 @@ exports[`Тестирование компонента Circle С буквами 
 exports[`Тестирование компонента Circle С пропом isSmall ===  true 1`] = `
 <div
   className="content "
+  data-testid="circle_container"
 >
   <div
     className="text text_type_input text_color_input mb-4 absolute head element"
   />
   <div
     className="circle  small default"
+    data-testid="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
+      data-testid="circle_value"
     />
   </div>
   <p
