@@ -1,16 +1,6 @@
-// Корректно разворачивает строку:
-// •	с чётным количеством символов.
-// •	с нечетным количеством символов.
-// •	с одним символом.
-// •	пустую строку.
-
-
-
 import { BrowserRouter as Router } from "react-router-dom";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { StringComponent } from "./string";
-
-//jest.setTimeout();
 
 describe('String reverses correctly', () => {
 

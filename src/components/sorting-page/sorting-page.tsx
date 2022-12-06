@@ -9,7 +9,6 @@ import { ElementStates } from "../../types/element-states";
 import { randomArray } from "./utils";
 import { delay } from "../../utils/functions";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
-
 import { bubbleSortGenerator, selectionSortGenerator } from './utils';
 
 interface INumberProps {

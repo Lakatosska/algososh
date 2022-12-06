@@ -8,7 +8,6 @@ import { ElementStates } from "../../types/element-states";
 import { Stack } from "./utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
-
 interface IStack {
   letter: string;
   state: ElementStates;

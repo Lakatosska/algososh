@@ -2,7 +2,6 @@ import { ElementStates } from '../../types/element-states';
 import { Direction } from "../../types/direction";
 import { bubbleSortGenerator, selectionSortGenerator } from './utils';
 
-
 describe('Тестирование алгоритма сортировки пузырьком', () => {
 
   it('Корректно сортирует пустой массив', () => {
