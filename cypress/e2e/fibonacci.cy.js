@@ -1,4 +1,5 @@
 import { SHORT_DELAY_IN_MS } from '../../src/constants/delays';
+import { circleValue, circle } from '../utils/constants';
 
 describe('Fibonacci page works correct', () => {
   beforeEach(() => {
@@ -16,31 +17,31 @@ describe('Fibonacci page works correct', () => {
     cy.get('button').contains('Рассчитать').click()
 
     cy.tick(SHORT_DELAY_IN_MS)
-    cy.get('[data-testid="circle_value"]')
+    cy.get(circleValue)
       .should('have.length', 1)
       .eq(0)
       .contains('1')
 
     cy.tick(SHORT_DELAY_IN_MS)
-    cy.get('[data-testid="circle_value"]')
+    cy.get(circleValue)
       .should('have.length', 2)
       .eq(1)
       .contains('1')
 
     cy.tick(SHORT_DELAY_IN_MS)
-    cy.get('[data-testid="circle_value"]')
+    cy.get(circleValue)
       .should('have.length', 3)
       .eq(2)
       .contains('2')
 
     cy.tick(SHORT_DELAY_IN_MS)
-    cy.get('[data-testid="circle_value"]')
+    cy.get(circleValue)
       .should('have.length', 4)
       .eq(3)
       .contains('3')
       
     cy.tick(SHORT_DELAY_IN_MS)
-    cy.get('[data-testid="circle_value"]')
+    cy.get(circleValue)
       .should('have.length', 5)
       .eq(4)
       .contains('5')

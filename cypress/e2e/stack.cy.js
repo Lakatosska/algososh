@@ -1,4 +1,5 @@
 import { SHORT_DELAY_IN_MS } from '../../src/constants/delays';
+import { circle, colors } from '../utils/constants';
 
 describe('Stack page works correct', () => {
   beforeEach(() => {
@@ -16,37 +17,37 @@ describe('Stack page works correct', () => {
 
     cy.clock()
 
-    cy.get('[data-testid="circle"]')
-      .should("have.css", "border-color", "rgb(210, 82, 225)")
+    cy.get(circle)
+      .should("have.css", "border-color", colors.changingColor)
       .contains('11')
 
     cy.tick(SHORT_DELAY_IN_MS)
 
-    cy.get('[data-testid="circle"]')
-      .should("have.css", "border-color", "rgb(0, 50, 255)")
+    cy.get(circle)
+      .should("have.css", "border-color", colors.defaultColor)
       .contains('11')
 
     cy.get('input').type('22').should('have.value', '22');
     cy.get('button').contains('Добавить').click()
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(0)
-      .should("have.css", "border-color", "rgb(0, 50, 255)")
+      .should("have.css", "border-color", colors.defaultColor)
       .contains('11')
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(1)
-      .should("have.css", "border-color", "rgb(210, 82, 225)")
+      .should("have.css", "border-color", colors.changingColor)
       .contains('22')
 
     cy.tick(SHORT_DELAY_IN_MS)
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(0)
-      .should("have.css", "border-color", "rgb(0, 50, 255)")
+      .should("have.css", "border-color", colors.defaultColor)
       .contains('11')
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(1)
-      .should("have.css", "border-color", "rgb(0, 50, 255)")
+      .should("have.css", "border-color", colors.defaultColor)
       .contains('22')
   })
 
@@ -59,31 +60,31 @@ describe('Stack page works correct', () => {
 
     cy.clock()
 
-    cy.get('[data-testid="circle_value"]')
+    cy.get(circle)
     cy.tick(SHORT_DELAY_IN_MS)
-    cy.get('[data-testid="circle_value"]')
+    cy.get(circle)
       .should('have.length', 2)
 
     cy.get('button').contains('Удалить').click();
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(0)
-      .should("have.css", "border-color", "rgb(0, 50, 255)")
+      .should("have.css", "border-color", colors.defaultColor)
       .contains('11')
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(1)
-      .should("have.css", "border-color", "rgb(210, 82, 225)")
+      .should("have.css", "border-color", colors.changingColor)
       .contains('22')
       cy.tick(SHORT_DELAY_IN_MS)
-      cy.get('[data-testid="circle_value"]')
+      cy.get(circle)
       .should('have.length', 1)
 
       cy.get('button').contains('Удалить').click()
-      cy.get('[data-testid="circle"]')
+      cy.get(circle)
       .eq(0)
-      .should("have.css", "border-color", "rgb(210, 82, 225)")
+      .should("have.css", "border-color", colors.changingColor)
       .contains('11')
       cy.tick(SHORT_DELAY_IN_MS);
-      cy.get('[data-testid="circle_value"]')
+      cy.get(circle)
       .should('have.length', 0)
   })
 
@@ -97,6 +98,6 @@ describe('Stack page works correct', () => {
     cy.get('button').contains('Добавить').click()
 
     cy.get('button').contains('Очистить').click()
-    cy.get('[data-testid="circle_value"]').should('have.length', 0)
+    cy.get(circle).should('have.length', 0)
   })
 })

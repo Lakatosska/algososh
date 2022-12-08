@@ -1,4 +1,5 @@
 import { SHORT_DELAY_IN_MS, DELAY_IN_MS } from '../../src/constants/delays';
+import { circleValue, circle, circleBox, colors } from '../utils/constants';
 
 describe('List page works correct', () => {
   beforeEach(() => {
@@ -14,17 +15,17 @@ describe('List page works correct', () => {
   })
 
   it('Default list renders correct', () => {
-    cy.get('[data-testid="circle_value"]')
+    cy.get(circleValue)
       .should('not.be.empty')
       .should('have.length', 6)
-    cy.get('[data-testid="circle_container"]')
+    cy.get(circleBox)
       .eq(0).contains('head')
-    cy.get('[data-testid="circle_container"]')
+    cy.get(circleBox)
       .eq(5).contains('tail')
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .each(circle => {
         cy.wrap(circle)
-          .should("have.css", "border-color", "rgb(0, 50, 255)")
+          .should("have.css", "border-color", colors.defaultColor)
       })
     })
 
@@ -32,7 +33,7 @@ describe('List page works correct', () => {
     cy.get('input').clear()
     cy.get('button[type="submit"]').should('be.disabled')
 
-    cy.get('[data-testid="circle_value"]')
+    cy.get(circleValue)
       .should('have.length', 6)
 
     cy.get('[data-testid="input_value"]').type('11').should('have.value', '11')
@@ -40,28 +41,28 @@ describe('List page works correct', () => {
     cy.clock()
     cy.get('button').contains('Добавить в head').click()
 
-    cy.get('[data-testid="circle_value"]')
+    cy.get(circleValue)
       .should('have.length', 7)
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .first()
-      .should("have.css", "border-color", "rgb(210, 82, 225)")
+      .should("have.css", "border-color", colors.changingColor)
       .contains('11')
 
     cy.tick(SHORT_DELAY_IN_MS)
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .first()
-      .should("have.css", "border-color", "rgb(127, 224, 81)")
+      .should("have.css", "border-color", colors.modifiedColor)
       .contains('11')
-    cy.get('[data-testid="circle_container"]')
+    cy.get(circleBox)
       .eq(0).contains('head')
 
     cy.tick(DELAY_IN_MS)
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .first()
-      .should("have.css", "border-color", "rgb(0, 50, 255)")
+      .should("have.css", "border-color", colors.defaultColor)
       .contains('11')
-    cy.get('[data-testid="circle_container"]')
+    cy.get(circleBox)
       .eq(0).contains('head')
   })
 
@@ -69,7 +70,7 @@ describe('List page works correct', () => {
     cy.get('input').clear()
     cy.get('button[type="submit"]').should('be.disabled')
 
-    cy.get('[data-testid="circle_value"]')
+    cy.get(circleValue)
       .should('have.length', 6)
 
     cy.clock()
@@ -77,20 +78,20 @@ describe('List page works correct', () => {
     cy.get('[data-testid="input_value"]').type('22').should('have.value', '22')
     cy.get('button').contains('Добавить в tail').click()
 
-    cy.get('[data-testid="circle_value"]')
+    cy.get(circleValue)
       .should('have.length', 7)
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(5)
-      .should("have.css", "border-color", "rgb(210, 82, 225)")
+      .should("have.css", "border-color", colors.changingColor)
       .contains('22')
 
     cy.tick(DELAY_IN_MS)
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(6)
-      .should("have.css", "border-color", "rgb(0, 50, 255)")
+      .should("have.css", "border-color", colors.defaultColor)
       .contains('22')
-    cy.get('[data-testid="circle_container"]')
+    cy.get(circleBox)
       .last()
       .contains('tail')
   })
@@ -98,7 +99,7 @@ describe('List page works correct', () => {
   it('Values are adding by index correctly', () => {
     cy.get('input').clear()
 
-    cy.get('[data-testid="circle_value"]')
+    cy.get(circleValue)
       .should('have.length', 6)
     
     cy.clock()
@@ -107,36 +108,36 @@ describe('List page works correct', () => {
     cy.get('[data-testid="input_index"]').type('1').should('have.value', '1')
     cy.get('button').contains('Добавить по индексу').click()
     
-    cy.get('[data-testid="circle_value"]')
+    cy.get(circleValue)
       .should('have.length', 7)
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .first()
-      .should("have.css", "border-color", "rgb(210, 82, 225)")
+      .should("have.css", "border-color", colors.changingColor)
       .contains('33')
 
     cy.tick(SHORT_DELAY_IN_MS)
-    cy.get('[data-testid="circle_container"]')
+    cy.get(circleBox)
       .eq(0).contains('head')
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .first()
-      .should("have.css", "border-color", "rgb(210, 82, 225)")
+      .should("have.css", "border-color", colors.changingColor)
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(1)
-      .should("have.css", "border-color", "rgb(210, 82, 225)")
+      .should("have.css", "border-color", colors.changingColor)
       .contains('33')
 
     cy.tick(SHORT_DELAY_IN_MS)
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(1)
-      .should("have.css", "border-color", "rgb(127, 224, 81)")
+      .should("have.css", "border-color", colors.modifiedColor)
       .contains('33')
 
     cy.tick(SHORT_DELAY_IN_MS)
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(1)
-      .should("have.css", "border-color", "rgb(0, 50, 255)")
+      .should("have.css", "border-color", colors.defaultColor)
       .contains('33')    
   })
 
@@ -144,32 +145,32 @@ describe('List page works correct', () => {
     cy.clock()
 
     cy.get('button').contains('Удалить из head').click()
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(0)
-      .should("have.css", "border-color", "rgb(0, 50, 255)")
+      .should("have.css", "border-color", colors.defaultColor)
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(1)
-      .should("have.css", "border-color", "rgb(210, 82, 225)")
+      .should("have.css", "border-color", colors.changingColor)
 
     cy.tick(SHORT_DELAY_IN_MS)
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(0)
-      .should("have.css", "border-color", "rgb(0, 50, 255)")
+      .should("have.css", "border-color", colors.defaultColor)
   })
 
   it('Values are removing from the "tail" correctly', () => {
     cy.clock()
 
     cy.get('button').contains('Удалить из tail').click()
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .last()
-      .should("have.css", "border-color", "rgb(210, 82, 225)")
+      .should("have.css", "border-color", colors.changingColor)
 
     cy.tick(SHORT_DELAY_IN_MS)
-    cy.get('[data-testid="circle"]')
-      .should("have.css", "border-color", "rgb(0, 50, 255)")
+    cy.get(circle)
+      .should("have.css", "border-color", colors.defaultColor)
   })
 
   it('Values are removing by index correctly', () => {
@@ -178,20 +179,20 @@ describe('List page works correct', () => {
     cy.get('[data-testid="input_index"]').type('0').should('have.value', '0')
     cy.get('button').contains('Удалить по индексу').click()
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(0)
-      .should("have.css", "border-color", "rgb(210, 82, 225)")
+      .should("have.css", "border-color", colors.changingColor)
 
     cy.tick(SHORT_DELAY_IN_MS)
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(0)
-      .should("have.css", "border-color", "rgb(0, 50, 255)")
-    cy.get('[data-testid="circle"]')
+      .should("have.css", "border-color", colors.defaultColor)
+    cy.get(circle)
       .eq(1)
-      .should("have.css", "border-color", "rgb(210, 82, 225)")
+      .should("have.css", "border-color", colors.changingColor)
 
     cy.tick(SHORT_DELAY_IN_MS)
-    cy.get('[data-testid="circle"]')
-      .should("have.css", "border-color", "rgb(0, 50, 255)")
+    cy.get(circle)
+      .should("have.css", "border-color", colors.defaultColor)
   })
 })

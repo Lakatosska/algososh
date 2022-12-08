@@ -1,8 +1,5 @@
-// --default-color: #0032ff; rgb(0, 50, 255) синий
-// --changing-color: #d252e1; rgb(210, 82, 225) фиолетовый
-// --modified-color: #7fe051; rgb(127, 224, 81) зеленый
-
 import { DELAY_IN_MS } from '../../src/constants/delays';
+import { circle, colors } from '../utils/constants';
 
 describe ('String page works correct', () => {
   beforeEach(() => {
@@ -20,54 +17,54 @@ describe ('String page works correct', () => {
 
     cy.clock()
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(0)
-      .should("have.css", "border-color", "rgb(210, 82, 225)")
+      .should("have.css", "border-color", colors.changingColor)
       .contains('f')
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(1)
-      .should("have.css", "border-color", "rgb(0, 50, 255)")
+      .should("have.css", "border-color", colors.defaultColor)
       .contains('o')
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(2)
-      .should("have.css", "border-color", "rgb(210, 82, 225)")
+      .should("have.css", "border-color", colors.changingColor)
       .contains('x')
 
     cy.tick(DELAY_IN_MS);
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(0)
-      .should("have.css", "border-color", "rgb(127, 224, 81)")
+      .should("have.css", "border-color", colors.modifiedColor)
       .contains('x')
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(1)
-      .should("have.css", "border-color", "rgb(210, 82, 225)")
+      .should("have.css", "border-color", colors.changingColor)
       .contains('o')
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(2)
-      .should("have.css", "border-color", "rgb(127, 224, 81)")
+      .should("have.css", "border-color", colors.modifiedColor)
       .contains('f')
 
     cy.tick(DELAY_IN_MS);
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .each(circle => {
         cy.wrap(circle)
-          .should("have.css", "border-color", "rgb(127, 224, 81)")
+          .should("have.css", "border-color", colors.modifiedColor)
       })
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(0)
       .contains('x')
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(1)
       .contains('o')
 
-    cy.get('[data-testid="circle"]')
+    cy.get(circle)
       .eq(2)
       .contains('f')
   })
