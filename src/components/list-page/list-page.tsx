@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, SyntheticEvent } from "react";
+import React, { useState, SyntheticEvent } from "react";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
@@ -250,6 +250,7 @@ export const ListPage: React.FC = () => {
               isLimitText
               value={inputValue}
               onChange={onChangeValue}
+              data-testid='input_value'
             />
             <Button 
               text='Добавить в head'
@@ -287,6 +288,7 @@ export const ListPage: React.FC = () => {
               placeholder='Введите индекс'
               value={index}
               onChange={onChangeIndex}
+              data-testid='input_index'
             />
             <Button 
               text='Добавить по индексу'
@@ -316,6 +318,7 @@ export const ListPage: React.FC = () => {
                   extraClass={styles.topSmallCircle}
                   isSmall={true}
                   state={ElementStates.Changing}
+                  data-testid='circle_head'
                 />
               )}
               <div className={styles.circleAndArrow} key={item}>
@@ -335,6 +338,7 @@ export const ListPage: React.FC = () => {
                   extraClass={styles.bottomSmallCircle}
                   isSmall
                   state={ElementStates.Changing}
+                  data-testid='circle_tail'
                 />
               )}
             </div>

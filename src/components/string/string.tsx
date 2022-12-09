@@ -77,6 +77,7 @@ export const StringComponent: React.FC = () => {
           isLimitText
           onChange={onChange}
           value={inputValue}
+          data-testid='input'
         />
         <Button
           type='submit'
@@ -93,6 +94,7 @@ export const StringComponent: React.FC = () => {
               letter={item.letter} 
               state={item.state} 
               key={index}
+              data-testid='circles'
             />
           )
         })
